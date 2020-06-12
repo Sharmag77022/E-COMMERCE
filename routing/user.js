@@ -7,18 +7,9 @@ const userModel = require('../models/userSchema');
 const bodyParser = require('body-parser');
 
 //const passport = require('passport');
-const flash = require('express-flash');
-const session = require('express-session');
 
-const initializePassport = require('../config/passport-config.js'); 
-router.use(flash());
-router.use(session({
-   secret:'secret',
-   resave:false,
-   saveUninitialized: false
-}))
-router.use(passport.initialize());
-router.use(passport.session);
+
+
 
 router.use(express.static('public'));
 router.get('/login',(req,res)=>{
@@ -62,9 +53,5 @@ router.post('/register',(req,res)=>{
     })
 })
 
-router.post('/login',passport.authenticate('local',{
-    successRedirect: '/',
-    failureRedirect: '/user/login',
-    failureFlash: true
-}))
+
 module.exports = router;

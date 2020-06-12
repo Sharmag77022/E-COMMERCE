@@ -4,11 +4,23 @@ const mongoose = require('mongoose');
 const connection = require('./models/connection');
 const passport = require('passport')
 connection();
-
+const user = require('./routing/user');
 let ejs = require('ejs');
 
+const flash = require('express-flash');
+const session = require('express-session');
 
-const user = require('./routing/user')(passport);
+const initializePassport = require('./config/passport-config'); 
+app.use(flash());
+app.use(session({
+   secret:'secret',
+   resave:false,
+   saveUninitialized: false
+}))
+app.use(passport.initialize());
+app.use(passport.session);
+
+
 app.set('view engine', 'ejs');
 app.use((req,res,next)=>{
     console.log(req.url);
@@ -24,5 +36,10 @@ app.get('/',(req,res)=>
         res.send(template);
     });
 });
+app.post('/login',passport.authenticate('local',{
+    successRedirect: '/',
+    failureRedirect: '/user/login',
+    failureFlash: true
+}))
 
 app.listen(3000,()=>console.log('server is running at 3000'));
