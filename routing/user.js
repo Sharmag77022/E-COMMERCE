@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const ejs = require('ejs');
-const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const userModel = require('../models/userSchema');
 const bodyParser = require('body-parser');
 
-//const passport = require('passport');
-
-
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
 
 
 router.use(express.static('public'));
@@ -24,6 +23,7 @@ router.get('/register',(req,res)=>{
 });
 
 router.post('/register',(req,res)=>{
+    
     userModel.findOne({'email':req.body.email}).then((document)=>{
         if(document)
         {
