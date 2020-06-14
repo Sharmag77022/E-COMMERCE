@@ -15,12 +15,13 @@ connection();
 
 
 app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static('public'));
 app.use(express.json());
 //function for user authentication
 const authenticateUser =  (req,res,next)=>{
+    console.log(req.body);
     userModel.findOne({'email':req.body.email}).then(async (user)=>{
         if(user===null){
             res.redirect('/user/login?userNotFound')
@@ -44,15 +45,18 @@ app.use('/user',user);
 app.get('/',(req,res)=>
 {
     ejs.renderFile('./views/dashboard.ejs', {}, {}, function(err, template){
-        res.send(template);
+       
+        return res.status(301).send(template);
     });
 });
 
 app.post('/login',authenticateUser,(req,res)=>{
+    console.log(req.user);
     const accessToken = jwt.sign( (req.user).toString(),process.env.ACCESS_TOKEN_SECRET);
-    console.log(accessToken);
-    res.json({accessToken:accessToken});
-    res.redirect('/user/login');
+   // console.log(accessToken);
+    //res.json({accessToken:accessToken});
+    res.redirect('/');
+    
 });
 
 app.listen(3000,()=>console.log('server is running at 3000'));
