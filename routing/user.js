@@ -10,7 +10,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
 
-router.use(express.static('public'));
+//router.use(express.static('public'));
 router.get('/login',(req,res)=>{
     ejs.renderFile('./views/login.ejs', {}, {}, function(err, template){
         res.send(template);

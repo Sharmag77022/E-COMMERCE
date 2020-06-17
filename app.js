@@ -7,7 +7,8 @@ const jwt = require('jsonwebtoken');
 const userModel = require('./models/userSchema');
 const user = require('./routing/user');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+const cookieParser = require('cookie-parser');
 let ejs = require('ejs');
 
 
@@ -15,10 +16,19 @@ connection();
 
 
 app.set('view engine', 'ejs');
-//app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+const cookieAuth = (req,res,next)=>{
+    const token = req.cookies.accessToken;
+    console.log("cookie got");  
+    next();
+}
 
 app.use(express.static('public'));
+app.use(cookieAuth);
 app.use(express.json());
+
+
 //function for user authentication
 const authenticateUser =  (req,res,next)=>{
     console.log(req.body);
@@ -41,7 +51,7 @@ const authenticateUser =  (req,res,next)=>{
     })
 }
 
-app.use('/user',user);
+ app.use('/user',user);
 app.get('/',(req,res)=>
 {
     ejs.renderFile('./views/dashboard.ejs', {}, {}, function(err, template){
@@ -51,12 +61,14 @@ app.get('/',(req,res)=>
 });
 
 app.post('/login',authenticateUser,(req,res)=>{
-    console.log(req.user);
+    //console.log(req.user);
     const accessToken = jwt.sign( (req.user).toString(),process.env.ACCESS_TOKEN_SECRET);
    // console.log(accessToken);
-    //res.json({accessToken:accessToken});
+    res.cookie('accessToken',accessToken);
     res.redirect('/');
     
+    
 });
+
 
 app.listen(3000,()=>console.log('server is running at 3000'));
