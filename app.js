@@ -17,15 +17,23 @@ connection();
 
 app.set('view engine', 'ejs');
 app.use(cookieParser());
+app.use(express.static('public'));
+
+// app.use((req,res,next)=>{
+//     console.log(req.url);
+//     next();
+// })
+
 app.use(bodyParser.urlencoded({ extended: false }));
 const cookieAuth = (req,res,next)=>{
+    
     const token = req.cookies.accessToken;
-    console.log("cookie got");  
-    next();
+    req.token = token;
+   // console.log(req.token);
+    next();  
 }
-
-app.use(express.static('public'));
 app.use(cookieAuth);
+
 app.use(express.json());
 
 
@@ -50,9 +58,20 @@ const authenticateUser =  (req,res,next)=>{
         }
     })
 }
-
+const authToken = (req,res,next)=>{
+    if(req.token == null)  {
+       return res.redirect('/user/login');
+    }
+    
+    jwt.verify(req.token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
+        if(err) return res.sendStatus(403)
+        req.user = user
+        console.log(user);
+        next()
+    })
+}
  app.use('/user',user);
-app.get('/',(req,res)=>
+app.get('/',authToken,(req,res)=>
 {
     ejs.renderFile('./views/dashboard.ejs', {}, {}, function(err, template){
        
