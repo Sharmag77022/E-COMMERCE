@@ -59,14 +59,16 @@ const authenticateUser =  (req,res,next)=>{
     })
 }
 const authToken = (req,res,next)=>{
+    console.log(req.token);
     if(req.token == null)  {
        return res.redirect('/user/login');
+
     }
     
     jwt.verify(req.token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
         if(err) return res.sendStatus(403)
         req.user = user
-        console.log(user);
+        
         next()
     })
 }
@@ -79,6 +81,10 @@ app.get('/',authToken,(req,res)=>
     });
 });
 
+app.get('/logout',(req,res)=>{
+    res.clearCookie('accessToken');
+    res.redirect('/user/login');
+})
 app.post('/login',authenticateUser,(req,res)=>{
     //console.log(req.user);
     const accessToken = jwt.sign( (req.user).toString(),process.env.ACCESS_TOKEN_SECRET);
