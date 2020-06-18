@@ -19,17 +19,12 @@ app.set('view engine', 'ejs');
 app.use(cookieParser());
 app.use(express.static('public'));
 
-// app.use((req,res,next)=>{
-//     console.log(req.url);
-//     next();
-// })
 
 app.use(bodyParser.urlencoded({ extended: false }));
 const cookieAuth = (req,res,next)=>{
     
     const token = req.cookies.accessToken;
     req.token = token;
-   // console.log(req.token);
     next();  
 }
 app.use(cookieAuth);
@@ -67,18 +62,23 @@ const authToken = (req,res,next)=>{
     
     jwt.verify(req.token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
         if(err) return res.sendStatus(403)
+       
         req.user = user
-        
+        //console.log('hello');
         next()
+       
     })
 }
  app.use('/user',user);
+
 app.get('/',authToken,(req,res)=>
 {
+   
     ejs.renderFile('./views/dashboard.ejs', {}, {}, function(err, template){
        
         return res.status(301).send(template);
     });
+  
 });
 
 app.get('/logout',(req,res)=>{
@@ -86,13 +86,9 @@ app.get('/logout',(req,res)=>{
     res.redirect('/user/login');
 })
 app.post('/login',authenticateUser,(req,res)=>{
-    //console.log(req.user);
     const accessToken = jwt.sign( (req.user).toString(),process.env.ACCESS_TOKEN_SECRET);
-   // console.log(accessToken);
     res.cookie('accessToken',accessToken);
-    res.redirect('/');
-    
-    
+    res.redirect('/');  
 });
 
 
