@@ -19,7 +19,10 @@ app.set('view engine', 'ejs');
 app.use(cookieParser());
 app.use(express.static('public'));
 
-
+app.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store');
+    next();
+  })
 app.use(bodyParser.urlencoded({ extended: false }));
 const cookieAuth = (req,res,next)=>{
     
@@ -34,14 +37,12 @@ app.use(express.json());
 
 //function for user authentication
 const authenticateUser =  (req,res,next)=>{
-    console.log(req.body);
     userModel.findOne({'email':req.body.email}).then(async (user)=>{
         if(user===null){
             res.redirect('/user/login?userNotFound')
         }
         try{
             if( await bcrypt.compare(req.body.password,user.password)){
-                //res.redirect('/?success')
                 req.user= user;
                 next();
             } else {
@@ -54,7 +55,6 @@ const authenticateUser =  (req,res,next)=>{
     })
 }
 const authToken = (req,res,next)=>{
-    console.log(req.token);
     if(req.token == null)  {
        return res.redirect('/user/login');
 
@@ -62,12 +62,9 @@ const authToken = (req,res,next)=>{
     
     jwt.verify(req.token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
         if(err) return res.sendStatus(403)
-       
         req.user = user
-        //console.log('hello');
         next()
-       
-    })
+       })
 }
  app.use('/user',user);
 
