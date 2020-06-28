@@ -1,9 +1,12 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const ejs = require('ejs');
 const bcrypt = require('bcryptjs');
 const merchantModel = require('../models/merchantSchema');
 const bodyParser = require('body-parser');
+const authenticateM = require('../Authenticate/merchantAuthenticate');
+const jwt = require('jsonwebtoken');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
@@ -49,6 +52,13 @@ router.post('/register',(req,res)=>{
        }
     })
 })
-
-
+router.post('/loginM',authenticateM,(req,res)=>{
+    const accessToken = jwt.sign( (req.merchant).toString(),process.env.ACCESS_TOKEN_MERCHANT);
+    res.cookie('accessToken',accessToken);
+    res.redirect('/merchant');  
+});
+router.get('/logoutM',(req,res)=>{
+    res.clearCookie('accessToken');
+    res.redirect('/merchant/login');
+})
 module.exports = router;
