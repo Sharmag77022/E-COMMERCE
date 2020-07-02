@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const connection = require('./models/connection');
+const admin = require('./routing/admin');
 const user = require('./routing/user');
 const merchant = require('./routing/merchant');
 const bodyParser = require('body-parser');
@@ -9,9 +10,8 @@ let ejs = require('ejs');
 const authToken = require('./Authorization/userAuth');
 const cookieAuth = require('./Authorization/cookieAuth');
 const authTokenM = require('./Authorization/merchantAuth');
+const authTokenA = require('./Authorization/adminAuth');
 connection();
-
-
 app.set('view engine', 'ejs');
 app.use(cookieParser());
 app.use(express.static('public'));
@@ -29,6 +29,8 @@ app.use(express.json());
 
 app.use('/user',user);
 app.use('/merchant',merchant);
+app.use('/admin',admin);
+
 app.get('/',authToken,(req,res)=>
 {
    ejs.renderFile('./views/dashboard.ejs', {}, {}, function(err, template){
@@ -39,6 +41,12 @@ app.get('/',authToken,(req,res)=>
 app.get('/merchant',authTokenM,(req,res)=>
 {   
     ejs.renderFile('./views/dashboardM.ejs', {}, {}, function(err, template){      
+        return res.status(301).send(template);
+    });  
+});
+app.get('/admin',authTokenA,(req,res)=>
+{   
+    ejs.renderFile('./views/dashboardA.ejs', {}, {}, function(err, template){      
         return res.status(301).send(template);
     });  
 });

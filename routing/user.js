@@ -52,7 +52,7 @@ router.post('/register',(req,res)=>{
        }
     })
 })
-router.post('/login',authenticateUser,(req,res)=>{
+router.post('/loginA',authenticateUser,(req,res)=>{
     const accessToken = jwt.sign( (req.user).toString(),process.env.ACCESS_TOKEN_SECRET);
     res.cookie('accessToken',accessToken);
     res.redirect('/');  
