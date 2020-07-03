@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 const ejs = require('ejs');
 const bcrypt = require('bcryptjs');
-const merchantModel = require('../models/merchantSchema');
+const merchantReq = require('../models/merchantReq');
+const merchantModel= require('../models/merchantSchema');
 const bodyParser = require('body-parser');
 const authenticateM = require('../Authenticate/merchantAuthenticate');
 const jwt = require('jsonwebtoken');
@@ -34,8 +35,8 @@ router.post('/register',(req,res)=>{
            bcrypt.genSalt(10,(err,salt)=>{
             bcrypt.hash(req.body.password,salt,(err,hashPwd)=>
              {
-                 const newMerchant = new merchantModel({name:req.body.name,email:req.body.email,password:hashPwd});
-                 newMerchant.save((err,merchant)=>{
+                 const newRequest = new merchantReq({name:req.body.name,email:req.body.email,password:hashPwd});
+                 newRequest.save((err,merchant)=>{
                 if(err)
                   {
                      console.log(err);
@@ -43,8 +44,8 @@ router.post('/register',(req,res)=>{
                  }
                  else
                  {
-                    console.log('Added Merchant successfully');
-                    res.redirect('/merchant/login?registerSuccess');
+                    console.log('Added Merchant Request Successfully');
+                    res.redirect('/merchant/login?inProcessing');
                  }
               })
            })
