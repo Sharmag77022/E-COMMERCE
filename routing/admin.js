@@ -6,9 +6,14 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const adminModel = require('../models/adminSchema');
 const merchantReq = require('../models/merchantReq');
+const acceptM = require('../models/acceptMerchant');
+const rejectM = require('../models/rejectMerchant');
 const bodyParser = require('body-parser');
 const authenticateAdmin = require('../Authenticate/adminAuthenticate');
-
+router.use((req,res,next)=>{
+    console.log(req.body.email);
+    next();
+})
 router.get('/login',(req,res)=>{
     ejs.renderFile('./views/loginA.ejs', {}, {}, function(err, template){
         res.send(template);
@@ -27,5 +32,12 @@ router.get('/merchantRequests',(req,res)=>{
 merchantReq.find().then(data=>{
     res.json(data);
 })
+})
+
+router.post('/acceptM',acceptM,(req,res)=>{
+    res.status(200).send();
+})
+router.post('/rejectM',rejectM,(req,res)=>{
+res.status(200).send();
 })
 module.exports = router;

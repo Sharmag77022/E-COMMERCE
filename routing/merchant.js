@@ -35,8 +35,9 @@ router.post('/register',(req,res)=>{
            bcrypt.genSalt(10,(err,salt)=>{
             bcrypt.hash(req.body.password,salt,(err,hashPwd)=>
              {
-                 const newRequest = new merchantReq({name:req.body.name,email:req.body.email,password:hashPwd});
-                 newRequest.save((err,merchant)=>{
+             const newRequest = new merchantReq({name:req.body.name,email:req.body.email,password:hashPwd});
+            
+                  newRequest.save((err,merchant)=>{
                 if(err)
                   {
                      console.log(err);
