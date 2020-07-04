@@ -8,6 +8,7 @@ const adminModel = require('../models/adminSchema');
 const merchantReq = require('../models/merchantReq');
 const acceptM = require('../models/acceptMerchant');
 const rejectM = require('../models/rejectMerchant');
+const authTokenA = require('../Authorization/adminAuth');
 const bodyParser = require('body-parser');
 const authenticateAdmin = require('../Authenticate/adminAuthenticate');
 router.get('/login',(req,res)=>{
@@ -36,4 +37,10 @@ router.post('/acceptM',acceptM,(req,res)=>{
 router.post('/rejectM',rejectM,(req,res)=>{
 res.status(200).send();
 })
+router.get('/merchantreq',authTokenA,(req,res)=>
+{   
+    ejs.renderFile('./views/merchantRequests.ejs', {}, {}, function(err, template){      
+        return res.status(301).send(template);
+    });  
+});
 module.exports = router;
