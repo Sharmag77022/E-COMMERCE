@@ -69,10 +69,9 @@ router.get('/allcats',authTokenA,(req,res)=>{
     })
 })
 router.post('/toggleCategory',authTokenA,(req,res)=>{
-    console.log(req.body);
-    category.findByIdAndUpdate(req.body.catId, {flag:req.body.flag}, {}).then(data=>{
-        console.log(success);
-    })
-    res.send();
+    category.findByIdAndUpdate(req.body.catId, {flag:req.body.flag}, {useFindAndModify:false}).then(data=>{
+      res.send();  
+    }).catch(err=>console.log(err));
+    
 })
 module.exports = router;
