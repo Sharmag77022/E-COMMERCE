@@ -3,8 +3,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     const requests = document.getElementById('merchantRequests');
    
     fetch('/admin/merchantRequests',{
+        credentials: "same-origin",
         method:'GET'
     }).then(res=>{
+        
         return res.json();
     }).then(data=> {
         for(let i=0;i<data.length;i++){
@@ -46,6 +48,7 @@ requests.addEventListener('click',(event)=>{
    if(target.parentNode.className=='accept'){
     //console.log(typeof(targetEmail));
     fetch('/admin/acceptM',{
+        credentials: "same-origin",
         method: 'POST',
         headers:{
             'Content-Type': 'application/json'
@@ -66,6 +69,7 @@ requests.addEventListener('click',(event)=>{
    }
    else if(target.parentNode.className=='reject'){
     fetch('/admin/rejectM',{
+        credentials: "same-origin",
         method: 'POST',
         headers:{
             'Content-Type': 'application/json'

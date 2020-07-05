@@ -8,6 +8,7 @@ const authTokenA = (req,res,next)=>{
 
     }
     jwt.verify(req.token,process.env.ACCESS_TOKEN_ADMIN,(err,admin)=>{
+        
         if(err) return res.redirect('/admin/login');
         req.admin = admin;
         next();
