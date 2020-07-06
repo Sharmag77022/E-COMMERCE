@@ -59,7 +59,7 @@ router.post('/newcat',authTokenA,(req,res)=>{
         }
         else{
             console.log('New Category Added');
-             res.status(200).send();
+             res.status(200).json(data);
         }
     })  
 })

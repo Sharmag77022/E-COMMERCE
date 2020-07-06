@@ -49,9 +49,30 @@ document.addEventListener('DOMContentLoaded',()=>{
                     category: newCat.value
                 })
             }).then(res=>{
-                if(res.status==200){
-                    console.log('success');
-                }
+                return res.json();
+                
+            }).then(data=>{
+                    newCat.value=""
+                    let index=categories.lastChild.childNodes[0].textContent;
+                    if(isNaN(index)){
+                        index=0;
+                    }
+                    var row = document.createElement('tr');
+                    var sNo = document.createElement("td");
+                    var cName = document.createElement("td");
+                    var enable = document.createElement("td");
+                    var anchor = document.createElement("a");
+                    anchor.setAttribute('href','#');
+                    row.setAttribute('id',data._id);
+                    anchor.classList.add("enabled");
+                    anchor.innerHTML='&#9745';
+                    sNo.innerHTML=parseInt(index)+1;
+                    cName.innerHTML=data.name;
+                    enable.appendChild(anchor);
+                    row.appendChild(sNo);
+                    row.appendChild(cName);
+                    row.appendChild(enable);
+                    categories.appendChild(row);
             }).catch(err=>{
                 console.log(err);
             })
@@ -96,7 +117,7 @@ categories.addEventListener('click',(event)=>{
             if(res.status==200){
                 target.className='enabled';
                 target.innerHTML='&#9745;' 
-            }
+                }
         }).catch(err=>{
             console.log(err);
         })
