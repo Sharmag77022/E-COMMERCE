@@ -5,11 +5,13 @@ const ejs = require('ejs');
 const bcrypt = require('bcryptjs');
 const merchantReq = require('../models/merchantReq');
 const merchantModel= require('../models/merchantSchema');
+const catReqModel = require('../models/categoryRequests'); 
+const authTokenM = require('../Authorization/merchantAuth');
 const bodyParser = require('body-parser');
 const authenticateM = require('../Authenticate/merchantAuthenticate');
 const jwt = require('jsonwebtoken');
 
-router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.get('/login',(req,res)=>{
     ejs.renderFile('./views/loginM.ejs', {}, {}, function(err, template){
@@ -62,5 +64,26 @@ router.post('/loginM',authenticateM,(req,res)=>{
 router.get('/logoutM',(req,res)=>{
     res.clearCookie('accessToken');
     res.redirect('/merchant/login');
+})
+router.post('/categoryR',authTokenM,(req,res)=>{
+    var new1 = req.merchant.split(",");
+    id=new1[0].slice(7);
+    const catRequest = new catReqModel({AdminId:id,name:req.body.category});
+            
+     catRequest.save((err,category)=>{
+         if(err)
+              {
+                  console.log(err);
+                  res.redirect('/merchant?CategoryReqfailed');
+             }
+             else
+                {
+                    console.log('Category Req sent to Admin');
+                    res.redirect('/merchant?ReqinProcessing');
+                }
+    })
+    // console.log(typeof(req.merchant));
+    //var mrcnt = JSON.parse(req.merchant);
+    //console.log(mrcnt);
 })
 module.exports = router;

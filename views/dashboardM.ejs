@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" >
     <head>
-        <title>Login Here</title>
+        <title>Merchant</title>
         <script src="js/jquery-3.5.1.min.js"></script>
         <link rel="stylesheet" href="css/bootstrap.css">
         <script src="js/bootstrap.js"></script>
@@ -20,5 +20,15 @@
             <h1 class='jumbotron'>Welcome Merchant</h1><br>
             <a class="btn btn-primary" href="/merchant/logoutM" role="button" id= "logOut">Log Out</a>
         </div>
+        <br>
+        <form action="/merchant/CategoryR" method="POST">
+            <div class="form-group row ">
+              <div class="col-xs-4 ml-4" >
+                <label for="Category">Category</label>
+                <input type="text" class="form-control col-sm-*" id="newCat" name="category" placeholder="Enter New Category">
+              </div>
+            <button type="submit" class="btn btn-primary" id="submitcat">Add Category</button>
+            </div> </form>
+            <div>
     </body>
  </html>
