@@ -68,7 +68,7 @@ router.get('/logoutM',(req,res)=>{
 router.post('/categoryR',authTokenM,(req,res)=>{
     var new1 = req.merchant.split(",");
     id=new1[0].slice(7);
-    const catRequest = new catReqModel({AdminId:id,name:req.body.category});
+    const catRequest = new catReqModel({MerchantId:id,name:req.body.category});
             
      catRequest.save((err,category)=>{
          if(err)

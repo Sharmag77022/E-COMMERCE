@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const adminModel = require('../models/adminSchema');
 const merchantReq = require('../models/merchantReq');
+const categoryReq = require('../models/categoryRequests');
 const acceptM = require('../models/acceptMerchant');
 const rejectM = require('../models/rejectMerchant');
 const category = require('../models/categorySchema');
@@ -73,5 +74,10 @@ router.post('/toggleCategory',authTokenA,(req,res)=>{
       res.send();  
     }).catch(err=>console.log(err));
     
+})
+router.get('/categoryRequestsM',(req,res)=>{
+    categoryReq.find().then(data=>{
+    res.json(data);
+    })
 })
 module.exports = router;

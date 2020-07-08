@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded',()=>{
    
     const requests = document.getElementById('merchantRequests');
-   
+    const categoryR = document.getElementById('categoryRequests');
+    //console.log(categoryR);
     fetch('/admin/merchantRequests',{
         credentials: "same-origin",
         method:'GET'
@@ -87,4 +88,43 @@ requests.addEventListener('click',(event)=>{
     })
 }
 })
+//Load Merchant Category Requests
+fetch('/admin/categoryRequestsM',{
+    credentials: "same-origin",
+    method:'GET'
+}).then(res=>{
+    
+    return res.json();
+}).then(data=> {
+    console.log(data);
+    for(let i=0;i<data.length;i++){
+        var row = document.createElement('tr');
+        var sNo = document.createElement("td");
+        var cName = document.createElement("td");
+        var mId= document.createElement("td");
+        mId.classList.add("mId");
+        var anchorA = document.createElement("A");
+        anchorA.setAttribute('href','#');
+        var anchorR = document.createElement("A");
+        anchorR.setAttribute('href','#');
+        var accept = document.createElement("td");
+        accept.classList.add("accept");
+        var reject = document.createElement("td");
+        reject.classList.add("reject");
+        sNo.innerHTML= i+1;
+        cName.innerHTML= data[i].name;
+        mId.innerHTML = data[i].MerchantId;
+        anchorA.innerHTML = '&#9745;';
+        anchorR.innerHTML = '&#10539;';
+        accept.appendChild(anchorA);
+        reject.appendChild(anchorR);
+        row.appendChild(sNo);
+        row.appendChild(cName);
+        row.appendChild(mId);
+        row.appendChild(accept);
+        row.appendChild(reject);
+        categoryR.appendChild(row);
+    }
+})
+.catch(err=>console.log(err));
 });

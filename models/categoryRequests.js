@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const catSchemaR = new mongoose.Schema({
-    AdminId:{type:String},
+    MerchantId:{type:String},
     name:{type:String,required:true}
 });
 
