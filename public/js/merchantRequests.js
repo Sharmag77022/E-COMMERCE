@@ -43,11 +43,11 @@ document.addEventListener('DOMContentLoaded',()=>{
 requests.addEventListener('click',(event)=>{
     event.preventDefault();
     var target = event.target;
-   // console.log(target.parentNode.previousSibling.childNodes[0]);
+   
    var targetRow= target.parentNode.parentNode;
    var targetEmail= target.parentNode.parentNode.childNodes[2].childNodes[0].textContent;
    if(target.parentNode.className=='accept'){
-    //console.log(typeof(targetEmail));
+    
     fetch('/admin/acceptM',{
         credentials: "same-origin",
         method: 'POST',
@@ -127,4 +127,57 @@ fetch('/admin/categoryRequestsM',{
     }
 })
 .catch(err=>console.log(err));
+//Accept Reject Categories
+
+categoryR.addEventListener('click',(event)=>{
+    event.preventDefault();
+    var target = event.target;
+   
+   var targetRow= target.parentNode.parentNode;
+   var targetId= targetRow.childNodes[2].childNodes[0].textContent;
+   var categoryName = targetRow.childNodes[1].textContent;
+   if(target.parentNode.className=='accept'){
+    fetch('/admin/acceptC',{
+        credentials: "same-origin",
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name:categoryName,
+            mId: targetId
+        })
+    }).then(res=>{
+        if(res.status==200){
+            console.log('success');
+            targetRow.parentNode.removeChild(targetRow);
+        }
+    }).catch(err=>{
+        console.log(err);
+    })
+    
+
+   }
+   else if(target.parentNode.className=='reject'){
+    fetch('/admin/rejectC',{
+        credentials: "same-origin",
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name:categoryName,
+            mId: targetId
+        })
+    }).then(res=>{
+        if(res.status==200){
+            console.log('success');
+            targetRow.parentNode.removeChild(targetRow);
+        }
+    }).catch(err=>{
+        console.log(err);
+    })
+}
+})
+
 });

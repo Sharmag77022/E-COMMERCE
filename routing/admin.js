@@ -9,6 +9,8 @@ const merchantReq = require('../models/merchantReq');
 const categoryReq = require('../models/categoryRequests');
 const acceptM = require('../models/acceptMerchant');
 const rejectM = require('../models/rejectMerchant');
+const acceptC = require('../models/acceptC');
+const rejectC= require('../models/rejectC');
 const category = require('../models/categorySchema');
 const authTokenA = require('../Authorization/adminAuth');
 const bodyParser = require('body-parser');
@@ -40,6 +42,12 @@ router.post('/acceptM',authTokenA,acceptM,(req,res)=>{
 router.post('/rejectM',authTokenA,rejectM,(req,res)=>{
 res.status(200).send();
 })
+router.post('/acceptC',authTokenA,acceptC,(req,res)=>{
+    res.status(200).send();
+})
+router.post('/rejectC',authTokenA,rejectC,(req,res)=>{
+    res.status(200).send();
+    })
 router.get('/merchantreq',authTokenA,(req,res)=>
 {   
     ejs.renderFile('./views/merchantRequests.ejs', {}, {}, function(err, template){      
