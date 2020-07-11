@@ -4,6 +4,7 @@ const connection = require('./models/connection');
 const admin = require('./routing/admin');
 const user = require('./routing/user');
 const merchant = require('./routing/merchant');
+const category = require('./models/categorySchema');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 let ejs = require('ejs');
@@ -33,10 +34,13 @@ app.use('/admin',admin);
 
 app.get('/',authToken,(req,res)=>
 {
-   ejs.renderFile('./views/dashboard.ejs', {}, {}, function(err, template){
+    category.find().then(data=>{
+       ejs.renderFile('./views/dashboard.ejs', {data}, {}, function(err, template){
        
         return res.status(301).send(template);
-    });  
+     });  
+    })
+    
 });
 app.get('/merchant',authTokenM,(req,res)=>
 {   
