@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded',()=>{
     const newCat = document.getElementById('newCat');
+    const newSubCat= document.getElementById('newSubCat')
+    const selectCat =document.getElementById('selectCat');
     const submitCat = document.getElementById('submitcat');
+    const submitSubCat = document.getElementById('submitsubcat');
     const categories = document.getElementById('allCats');
+    const select = document.getElementById('selectCat')
     fetch('/admin/allcats',{
         credentials: "same-origin",
         method: 'GET'
@@ -9,6 +13,12 @@ document.addEventListener('DOMContentLoaded',()=>{
         return res.json();
     }).then((cats)=>{
        for(let i=0;i<cats.length;i++){
+           //for select element
+        var option = document.createElement('option');
+        option.setAttribute('value',cats[i]._id);
+        option.innerHTML=cats[i].name;
+        select.appendChild(option);
+        //for table show
         var row = document.createElement('tr');
         var sNo = document.createElement("td");
         var cName = document.createElement("td");
@@ -73,10 +83,39 @@ document.addEventListener('DOMContentLoaded',()=>{
                     row.appendChild(cName);
                     row.appendChild(enable);
                     categories.appendChild(row);
+                    //add category in select option
+                    var option = document.createElement('option');
+                    option.setAttribute('value',data._id);
+                    option.innerHTML=data.name;
+                    select.appendChild(option);
             }).catch(err=>{
                 console.log(err);
             })
         }
+    })
+    submitSubCat.addEventListener('click',(event)=>{
+        event.preventDefault();
+        if(newSubCat.value.length>=1){
+            fetch('/admin/newSubcat',{
+                credentials: "same-origin",
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    PId: selectCat.value,
+                    name: newSubCat.value
+                })
+            }).then((res)=>{
+                return res.json();
+            }).then((data)=>{
+                newSubCat.value="";
+                //console.log(data);
+            }).catch((err)=>{
+                console.log(err);
+            })
+        }
+
     })
 categories.addEventListener('click',(event)=>{
     event.preventDefault();

@@ -12,25 +12,43 @@
     </head>
 
     <body>
-        <div id="includedContent"></div>  
-        <br>
-        <form>
-            <div class="form-group row ">
-              <div class="col-xs-4 ml-4" >
-                <label for="Category">Category</label>
-                <input type="text" class="form-control col-sm-*" id="newCat"  placeholder="Enter New Category">
-              </div>
-            <button type="submit" class="btn btn-primary" id="submitcat">Add Category</button>
-            </div> </form>
-            <div>
+        <div id="includedContent"></div> 
+        <!-- <div class="container-fluid"> -->
+        <!-- start -->
+        <!-- <div class="row"> -->
+        <div class=" text-success mx-4 " ><h4>Add a Category</h4>       
+        <form class="w-25   bg-info p-3 ">
+            <div class="form-group ">
+              <input type="text" class="form-control " id="newCat"  placeholder="Enter New Category">
+              <button type="submit" class="btn btn-primary  " id="submitcat">Add Category</button>
+            </div>
+        </form>
+        </div>
+            <h4 class="mx-4 text-success ">Add a Sub Category</h4>
+            <form class="w-25 mx-4 p-3 bg-info">
+              <select name="subCats" class="custom-select " id="selectCat">
+                <option selected >Select Parent Category</option>
+                <!-- <option value="volvo">Volvo</option>
+                <option value="fiat">Fiat</option>
+                <option value="audi">Audi</option> -->
+              </select><br>
+              <input type="text" class="form-control col-sm-* my-3" id="newSubCat"  placeholder="Enter Sub Category">
+              
+              <button type="submit" class="btn btn-primary" id="submitsubcat">Add Category</button>
+            
+            </form>
+          </div>
+         </div>
+            <!-- End -->
+            <br>
+            <div >
               <table class="table table-dark" id="allCats">
                 <tr><td>Serial Number</td>
                     <td>Category Name</td>
                     <td>Enable/Disable</td>
                   </tr>
-              </table>
+              </table></div>
             </div>
-         
           <script src="/js/Categories.js"></script>
        </body> 
  </html>

@@ -12,6 +12,7 @@ const rejectM = require('../models/rejectMerchant');
 const acceptC = require('../models/acceptC');
 const rejectC= require('../models/rejectC');
 const category = require('../models/categorySchema');
+const subCategory = require('../models/subCatSchema');
 const authTokenA = require('../Authorization/adminAuth');
 const bodyParser = require('body-parser');
 const authenticateAdmin = require('../Authenticate/adminAuthenticate');
@@ -87,5 +88,22 @@ router.get('/categoryRequestsM',(req,res)=>{
     categoryReq.find().then(data=>{
     res.json(data);
     })
+})
+router.post('/newSubcat',authTokenA,(req,res)=>{
+    // CatId:{type:String,required:true},
+    // name:{type:String,required:true},
+    // flag:{type:Number,required:true}
+    console.log(req.body);
+    const newSubCat = new subCategory({CatId:req.body.PId,name:req.body.name,flag:1});
+    newSubCat.save((err,data)=>{
+        if(err){
+            console.log(err);
+            res.redirect('/admin/categories?NotAdded');
+        }
+        else{
+            console.log('New Sub Category Added');
+             res.status(200).json(data);
+        }
+    }) 
 })
 module.exports = router;
