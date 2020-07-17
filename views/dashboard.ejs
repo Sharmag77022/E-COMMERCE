@@ -22,7 +22,7 @@
         <div>
         <div id="includedContent" ></div>
         </div>
-        <div id='categories'>
+        <!-- <div id='categories'>
             
             <ul class="list-group">
                 <li class="list-group-item bg-dark text-white" ><h2>Categories</h2></li>
@@ -34,6 +34,38 @@
            
         </div>
         <div id='products'></div>
+        </div>  -->
+        <!-- start experiment -->
+        <div class="wrapper ">
+            <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbaraid">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbaraid">
+                        <ul class="navbar-nav text-center ">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">home</a></li>
+                                <% for(var i=0;i<data.length;i++) { %>
+                                    <% if(data[i].flag==1){ %>
+                                      <li class="nav-item">
+                                          <div class="dropdown"><a  class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" ><%= data[i].name %>
+                                        
+                                    </a>
+                                    <div class="dropdown-menu bg-info text-center">
+                                        <a class="dropdown-item " href="/user/logout">Log Out</a>
+                                        <a class="dropdown-item" href="#">Account</a>
+                                        <a class="dropdown-item" href="#">Setting</a>
+                                      </div>    
+                                    </div></li>       
+                                  <%} } %>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </nav>
         </div>
+        <!-- end experiment -->
     </body>
  </html>
