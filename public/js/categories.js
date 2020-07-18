@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const submitCat = document.getElementById('submitcat');
     const submitSubCat = document.getElementById('submitsubcat');
     const categories = document.getElementById('allCats');
-    const select = document.getElementById('selectCat')
+    const select = document.getElementById('selectCat');
     fetch('/admin/allcats',{
         credentials: "same-origin",
         method: 'GET'

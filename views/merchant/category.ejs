@@ -13,16 +13,32 @@
 
     <body >
       <div id="includedContent"></div>
+      <br><br><div class="row">
+          <div class="col-sm-12 col-md-8 col-lg-4 mx-auto">
+      <h4 class="text-success mx-auto lead bg-dark text-warning p-3 text-center ">Add a Category Request</h4></div></div>
       
-        <br>
-        <form action="/merchant/CategoryR" method="POST">
-            <div class="form-group row ">
-              <div class="col-xs-4 ml-4" >
-                <label for="Category">Category</label>
-                <input type="text" class="form-control col-sm-*" id="newCat" name="category" placeholder="Enter New Category">
-              </div>
+      <form class="w-50 mx-4 p-3 bg-info mx-auto " action="/merchant/CategoryR" method="POST">
+            <div class="form-group ">
+                <input type="text" class="form-control" id="newCat" name="category" placeholder="Enter New Category">
+              <br>
             <button type="submit" class="btn btn-primary" id="submitcat">Add Category</button>
             </div> </form>
-            <div>
+            
+            <script src="/js/CategoryMerchant.js"></script>
+            <br>
+            <div class="row">
+                <div class="col-sm-12 col-md-8 col-lg-4 mx-auto">
+            <h4 class="text-success  lead bg-dark text-warning p-3 text-center ">Add a Sub Category Request</h4></div></div>     <form class="w-50 mx-4 p-3 bg-info mx-auto">
+              <select name="subCats" class="custom-select " id="selectCat">
+                <option selected >Select Parent Category</option>
+              </select><br>
+              <input type="text" class="form-control col-sm-* my-3" id="newSubCat"  placeholder="Enter Sub Category">
+              
+              <button type="submit" class="btn btn-primary" id="submitsubcat">Add Category</button>
+            
+            </form>
+        </div>
+        <br>
+       
     </body>
  </html>

@@ -90,9 +90,6 @@ router.get('/categoryRequestsM',(req,res)=>{
     })
 })
 router.post('/newSubcat',authTokenA,(req,res)=>{
-    // CatId:{type:String,required:true},
-    // name:{type:String,required:true},
-    // flag:{type:Number,required:true}
     console.log(req.body);
     const newSubCat = new subCategory({CatId:req.body.PId,name:req.body.name,flag:1});
     newSubCat.save((err,data)=>{

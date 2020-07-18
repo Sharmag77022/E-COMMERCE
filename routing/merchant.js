@@ -10,6 +10,9 @@ const authTokenM = require('../Authorization/merchantAuth');
 const bodyParser = require('body-parser');
 const authenticateM = require('../Authenticate/merchantAuthenticate');
 const jwt = require('jsonwebtoken');
+const category = require('../models/categorySchema');
+const subCategoryR= require('../models/subCatReq');
+
 // router.use((req,res,next)=>{
 //     console.log(req.url);
 //     next();
@@ -21,6 +24,25 @@ router.get('/login',(req,res)=>{
         res.send(template);
     });
 });
+
+router.post('/catRequest',authTokenM,(req,res)=>{
+    const newSubCat = new subCategoryR({CatId:req.body.PId,name:req.body.name});
+    newSubCat.save((err,data)=>{
+        if(err){
+            console.log(err);
+            res.redirect('/merchant/category?NotAdded');
+        }
+        else{
+            console.log('New Sub Category Request Added');
+             res.status(200).json(data);
+        }
+    })
+})
+router.get('/allcats',authTokenM,(req,res)=>{
+    category.find().then(data=>{
+        res.json(data);
+    })
+})
 
 router.get('/register',(req,res)=>{
     ejs.renderFile('./views/registerM.ejs', {}, {}, function(err, template){
