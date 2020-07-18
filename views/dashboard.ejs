@@ -22,43 +22,36 @@
         <div>
         <div id="includedContent" ></div>
         </div>
-        <!-- <div id='categories'>
-            
-            <ul class="list-group">
-                <li class="list-group-item bg-dark text-white" ><h2>Categories</h2></li>
-            <% for(var i=0;i<data.length;i++) { %>
-                <% if(data[i].flag==1){ %>
-                  <li class="list-group-item list-group-item-success"><a style="text-decoration: none;" href= "#" ><%= data[i].name %></a></li>       
-              <%} } %>
-            </ul>
-           
-        </div>
-        <div id='products'></div>
-        </div>  -->
-        <!-- start experiment -->
-        <div class="wrapper ">
-            <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-                <div class="container-fluid">
+        <!-- Categories Section -->
+        <div class="wrapper  ">
+            <nav class="navbar navbar-expand-sm navbar-dark bg-dark ">
+                <div class="container-fluid ">
                     <button class="navbar-toggler" data-toggle="collapse" data-target="#navbaraid">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbaraid">
-                        <ul class="navbar-nav text-center ">
+                    <div class="collapse navbar-collapse " id="navbaraid">
+                        <ul class="navbar-nav  text-center ">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">home</a></li>
-                                <% for(var i=0;i<data.length;i++) { %>
-                                    <% if(data[i].flag==1){ %>
+                                <a href="#" class="nav-link">All Categories</a></li>
+                                
+                                <% for(var i=0;i<dataC.categories.data1.length;i++) { %>
+                                    <% if(dataC.categories.data1[i].flag==1){ %>
                                       <li class="nav-item">
-                                          <div class="dropdown"><a  class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" ><%= data[i].name %>
-                                        
+                                          <div class="dropdown"><a  class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" >
+                                              <%= dataC.categories.data1[i].name %>   
                                     </a>
                                     <div class="dropdown-menu bg-info text-center">
-                                        <a class="dropdown-item " href="/user/logout">Log Out</a>
-                                        <a class="dropdown-item" href="#">Account</a>
-                                        <a class="dropdown-item" href="#">Setting</a>
+                                        <% for(var j=0;j<dataC.categories.data2.length;j++) { %>
+                                            <% if(dataC.categories.data1[i]._id==dataC.categories.data2[j].CatId){ %>
+                                                <a class="dropdown-item" href="#"><%= dataC.categories.data2[j].name %></a>
+                                            <% } %>
+                                        <% } %>
                                       </div>    
-                                    </div></li>       
+                                    </div></li>  
+
                                   <%} } %>
+                                
+                                 
                             </li>
                         </ul>
                     </div>
@@ -66,6 +59,6 @@
 
             </nav>
         </div>
-        <!-- end experiment -->
+        <!-- end of categories section -->
     </body>
  </html>

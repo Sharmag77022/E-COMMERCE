@@ -5,6 +5,7 @@ const admin = require('./routing/admin');
 const user = require('./routing/user');
 const merchant = require('./routing/merchant');
 const category = require('./models/categorySchema');
+const subCategory = require('./models/subCatSchema');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 let ejs = require('ejs');
@@ -35,16 +36,21 @@ app.use('/admin',admin);
 app.get('/',authToken,(req,res)=>
 {
     category.find().then(data=>{
-       ejs.renderFile('./views/dashboard.ejs', {data}, {}, function(err, template){
-       
-        return res.status(301).send(template);
+        subCategory.find().then((sdata)=>{
+            var dataC= {categories:{data1:data,data2:sdata}};
+            ejs.renderFile('./views/dashboard.ejs', {dataC}, {}, function(err, template){
+                // if(err){
+                //     console.log(err);
+                // }
+                return res.status(301).send(template);
+        })
      });  
     })
     
 });
 app.get('/merchant',authTokenM,(req,res)=>
 {   
-    ejs.renderFile('./views/dashboardM.ejs', {}, {}, function(err, template){      
+    ejs.renderFile('./views/merchant/dashboardM.ejs', {}, {}, function(err, template){      
         return res.status(301).send(template);
     });  
 });

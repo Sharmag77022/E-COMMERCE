@@ -10,7 +10,10 @@ const authTokenM = require('../Authorization/merchantAuth');
 const bodyParser = require('body-parser');
 const authenticateM = require('../Authenticate/merchantAuthenticate');
 const jwt = require('jsonwebtoken');
-
+// router.use((req,res,next)=>{
+//     console.log(req.url);
+//     next();
+// })
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.get('/login',(req,res)=>{
@@ -61,6 +64,13 @@ router.post('/loginM',authenticateM,(req,res)=>{
     res.cookie('accessToken',accessToken);
     res.redirect('/merchant');  
 });
+
+router.get('/category',authTokenM,(req,res)=>{
+    ejs.renderFile('./views/merchant/category.ejs', {}, {}, function(err, template){
+        res.send(template);
+    });
+})
+
 router.get('/logoutM',(req,res)=>{
     res.clearCookie('accessToken');
     res.redirect('/merchant/login');
@@ -82,8 +92,6 @@ router.post('/categoryR',authTokenM,(req,res)=>{
                     res.redirect('/merchant?ReqinProcessing');
                 }
     })
-    // console.log(typeof(req.merchant));
-    //var mrcnt = JSON.parse(req.merchant);
-    //console.log(mrcnt);
+
 })
 module.exports = router;
