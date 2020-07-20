@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded',()=>{
            //for select element
         var option = document.createElement('option');
         option.setAttribute('value',cats[i]._id);
+       // option.setAttribute('id',cats[i].name);
         option.innerHTML=cats[i].name;
         select.appendChild(option);
        }
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     //////////////////////////////////
     ///////////////////////////////////
     submitSubCat.addEventListener('click',(event)=>{
+        
         event.preventDefault();
         if(newSubCat.value.length>=1){
             fetch('/merchant/catRequest',{

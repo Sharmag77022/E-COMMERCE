@@ -7,9 +7,11 @@ const bcrypt = require('bcryptjs');
 const adminModel = require('../models/adminSchema');
 const merchantReq = require('../models/merchantReq');
 const categoryReq = require('../models/categoryRequests');
+const subCategoryR= require('../models/subCatReq');
 const acceptM = require('../models/acceptMerchant');
 const rejectM = require('../models/rejectMerchant');
 const acceptC = require('../models/acceptC');
+const acceptSubC = require('../models/acceptSubC');
 const rejectC= require('../models/rejectC');
 const category = require('../models/categorySchema');
 const subCategory = require('../models/subCatSchema');
@@ -89,6 +91,14 @@ router.get('/categoryRequestsM',(req,res)=>{
     res.json(data);
     })
 })
+
+router.get('/subCatRequests',(req,res)=>{
+    subCategoryR.find().then(data=>{
+    //console.log(data);    
+    res.json(data);
+    })
+})
+
 router.post('/newSubcat',authTokenA,(req,res)=>{
     console.log(req.body);
     const newSubCat = new subCategory({CatId:req.body.PId,name:req.body.name,flag:1});
@@ -102,5 +112,8 @@ router.post('/newSubcat',authTokenA,(req,res)=>{
              res.status(200).json(data);
         }
     }) 
+})
+router.post('/acceptSubCat',authTokenA,acceptSubC,(req,res)=>{
+    res.status(200).send();
 })
 module.exports = router;

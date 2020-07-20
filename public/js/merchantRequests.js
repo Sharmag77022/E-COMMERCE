@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded',()=>{
    
     const requests = document.getElementById('merchantRequests');
     const categoryR = document.getElementById('categoryRequests');
+    const subCatR = document.getElementById('subCatRequests');
     //console.log(categoryR);
     fetch('/admin/merchantRequests',{
         credentials: "same-origin",
@@ -146,6 +147,102 @@ categoryR.addEventListener('click',(event)=>{
         body: JSON.stringify({
             name:categoryName,
             mId: targetId
+        })
+    }).then(res=>{
+        if(res.status==200){
+            console.log('success');
+            targetRow.parentNode.removeChild(targetRow);
+        }
+    }).catch(err=>{
+        console.log(err);
+    })
+    
+
+   }
+   else if(target.parentNode.className=='reject'){
+    fetch('/admin/rejectC',{
+        credentials: "same-origin",
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name:categoryName,
+            mId: targetId
+        })
+    }).then(res=>{
+        if(res.status==200){
+            console.log('success');
+            targetRow.parentNode.removeChild(targetRow);
+        }
+    }).catch(err=>{
+        console.log(err);
+    })
+}
+})
+//load sub category requests
+fetch('/admin/subCatRequests',{
+    credentials: "same-origin",
+    method:'GET'
+}).then(res=>{
+    
+    return res.json();
+}).then(data=> {
+    console.log(data);
+    for(let i=0;i<data.length;i++){
+        let row = document.createElement('tr');
+        let sNo = document.createElement("td");
+        let cName = document.createElement("td");
+        let mId= document.createElement("td");
+        let pCat = document.createElement("td");
+        pCat.setAttribute('id',data[i].CatId);
+        mId.classList.add("mId");
+        let anchorA = document.createElement("A");
+        anchorA.setAttribute('href','#');
+        let anchorR = document.createElement("A");
+        anchorR.setAttribute('href','#');
+        let accept = document.createElement("td");
+        accept.classList.add("accept");
+        let reject = document.createElement("td");
+        reject.classList.add("reject");
+        sNo.innerHTML= i+1;
+        cName.innerHTML= data[i].name;
+        mId.innerHTML = data[i].mId;
+        pCat.innerHTML= data[i].pName;
+        anchorA.innerHTML = '&#9745;';
+        anchorR.innerHTML = '&#10539;';
+        accept.appendChild(anchorA);
+        reject.appendChild(anchorR);
+        row.appendChild(sNo);
+        row.appendChild(cName);
+        row.appendChild(mId);
+        row.appendChild(pCat);
+        row.appendChild(accept);
+        row.appendChild(reject);
+        subCatR.appendChild(row);
+    }
+})
+.catch(err=>console.log(err));
+//Accept Reject sub category Requests
+subCatR.addEventListener('click',(event)=>{
+    event.preventDefault();
+    var target = event.target;
+   
+   var targetRow= target.parentNode.parentNode;
+   var targetId= targetRow.childNodes[2].childNodes[0].textContent;
+   var categoryName = targetRow.childNodes[1].textContent;
+   var pCatId= targetRow.childNodes[3].id;
+   if(target.parentNode.className=='accept'){
+    fetch('/admin/acceptsubCat',{
+        credentials: "same-origin",
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name:categoryName,
+            mId: targetId,
+            pCatId:pCatId
         })
     }).then(res=>{
         if(res.status==200){

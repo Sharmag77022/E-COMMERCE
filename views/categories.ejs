@@ -13,16 +13,18 @@
 
     <body>
         <div id="includedContent"></div> 
-        <div class=" text-success mx-4 " ><h4>Add a Category</h4>       
-        <form class="w-25   bg-info p-3 ">
+        <div class=" text-success w-25 mx-auto bg-dark text-warning p-2 text-center" ><h4>Add a Category</h4>  </div> <br>
+         <div class="row">    
+        <form class="col-md-6 col-sm-12  mx-auto bg-info p-3 ">
             <div class="form-group ">
-              <input type="text" class="form-control " id="newCat"  placeholder="Enter New Category">
-              <button type="submit" class="btn btn-primary  " id="submitcat">Add Category</button>
+              <input type="text" class="form-control " id="newCat"  placeholder="Enter New Category"><br>
+              <button type="submit" class="btn btn-primary " id="submitcat">Add Category</button>
             </div>
-        </form>
-        </div>
-            <h4 class="mx-4 text-success ">Add a Sub Category</h4>
-            <form class="w-25 mx-4 p-3 bg-info">
+        </form></div> <br>
+        
+            <h4 class=" text-success w-25 mx-auto bg-dark text-warning p-2 text-center">Add a Sub Category</h4><br>
+            <div class="row">
+            <form class="mx-4 p-3 bg-info col-md-6 col-sm-12  mx-auto">
               <select name="subCats" class="custom-select " id="selectCat">
                 <option selected >Select Parent Category</option>
               </select><br>
@@ -30,7 +32,7 @@
               
               <button type="submit" class="btn btn-primary" id="submitsubcat">Add Category</button>
             
-            </form>
+            </form></div>
           </div>
          </div>
             <!-- End -->

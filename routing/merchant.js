@@ -26,17 +26,24 @@ router.get('/login',(req,res)=>{
 });
 
 router.post('/catRequest',authTokenM,(req,res)=>{
-    const newSubCat = new subCategoryR({CatId:req.body.PId,name:req.body.name});
-    newSubCat.save((err,data)=>{
-        if(err){
-            console.log(err);
-            res.redirect('/merchant/category?NotAdded');
-        }
-        else{
-            console.log('New Sub Category Request Added');
-             res.status(200).json(data);
-        }
+    category.findById(req.body.PId).then((data)=>{
+            var new1 = req.merchant.split(",");
+            var id=new1[0].slice(7);
+            const newSubCat = new subCategoryR({CatId:req.body.PId,name:req.body.name,pName:data.name,mId:id});
+        newSubCat.save((err,data)=>{
+            if(err){
+                console.log(err);
+                res.redirect('/merchant/category?NotAdded');
+            }
+            else{
+                console.log('New Sub Category Request Added');
+                res.status(200).json(data);
+            }
+        })
+    }).catch((err)=>{
+        console.log(err);
     })
+    
 })
 router.get('/allcats',authTokenM,(req,res)=>{
     category.find().then(data=>{
@@ -99,7 +106,7 @@ router.get('/logoutM',(req,res)=>{
 })
 router.post('/categoryR',authTokenM,(req,res)=>{
     var new1 = req.merchant.split(",");
-    id=new1[0].slice(7);
+    var id=new1[0].slice(7);
     const catRequest = new catReqModel({MerchantId:id,name:req.body.category});
             
      catRequest.save((err,category)=>{
