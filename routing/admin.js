@@ -12,6 +12,7 @@ const acceptM = require('../models/acceptMerchant');
 const rejectM = require('../models/rejectMerchant');
 const acceptC = require('../models/acceptC');
 const acceptSubC = require('../models/acceptSubC');
+const rejectSubC = require('../models/rejectSubC');
 const rejectC= require('../models/rejectC');
 const category = require('../models/categorySchema');
 const subCategory = require('../models/subCatSchema');
@@ -114,6 +115,9 @@ router.post('/newSubcat',authTokenA,(req,res)=>{
     }) 
 })
 router.post('/acceptSubCat',authTokenA,acceptSubC,(req,res)=>{
+    res.status(200).send();
+})
+router.post('/rejectSubCat',authTokenA,rejectSubC,(req,res)=>{
     res.status(200).send();
 })
 module.exports = router;

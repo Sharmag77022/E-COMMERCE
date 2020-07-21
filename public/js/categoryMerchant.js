@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     submitSubCat.addEventListener('click',(event)=>{
         
         event.preventDefault();
-        if(newSubCat.value.length>=1){
+        if(newSubCat.value.length>=1 && selectCat.value != "Select Parent Category"){
+            
             fetch('/merchant/catRequest',{
                 credentials: "same-origin",
                 method: 'POST',

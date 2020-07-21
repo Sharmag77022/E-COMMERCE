@@ -223,7 +223,7 @@ fetch('/admin/subCatRequests',{
     }
 })
 .catch(err=>console.log(err));
-//Accept Reject sub category Requests
+//Accept/Reject sub category Requests
 subCatR.addEventListener('click',(event)=>{
     event.preventDefault();
     var target = event.target;
@@ -252,11 +252,9 @@ subCatR.addEventListener('click',(event)=>{
     }).catch(err=>{
         console.log(err);
     })
-    
-
    }
    else if(target.parentNode.className=='reject'){
-    fetch('/admin/rejectC',{
+    fetch('/admin/rejectsubCat',{
         credentials: "same-origin",
         method: 'POST',
         headers:{
@@ -264,7 +262,8 @@ subCatR.addEventListener('click',(event)=>{
         },
         body: JSON.stringify({
             name:categoryName,
-            mId: targetId
+            mId: targetId,
+            pCatId:pCatId
         })
     }).then(res=>{
         if(res.status==200){
