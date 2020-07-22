@@ -12,6 +12,7 @@ const authenticateM = require('../Authenticate/merchantAuthenticate');
 const jwt = require('jsonwebtoken');
 const category = require('../models/categorySchema');
 const subCategoryR= require('../models/subCatReq');
+const subCategory =require('../models/subCatSchema')
 
 // router.use((req,res,next)=>{
 //     console.log(req.url);
@@ -51,8 +52,21 @@ router.get('/allcats',authTokenM,(req,res)=>{
     })
 })
 
+router.post('/allSubCats',authTokenM,(req,res)=>{
+    
+    subCategory.find({CatId:req.body.PId}).then(data=>{
+        res.json(data);
+    })
+})
+
 router.get('/register',(req,res)=>{
     ejs.renderFile('./views/registerM.ejs', {}, {}, function(err, template){
+        res.send(template);
+    });   
+});
+
+router.get('/addProduct',(req,res)=>{
+    ejs.renderFile('./views/merchant/AddProduct.ejs', {}, {}, function(err, template){
         res.send(template);
     });   
 });
@@ -121,6 +135,6 @@ router.post('/categoryR',authTokenM,(req,res)=>{
                     res.redirect('/merchant?ReqinProcessing');
                 }
     })
-
 })
+
 module.exports = router;
