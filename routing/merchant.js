@@ -5,6 +5,7 @@ const ejs = require('ejs');
 const bcrypt = require('bcryptjs');
 const merchantReq = require('../models/merchantReq');
 const merchantModel= require('../models/merchantSchema');
+const productModel = require('../models/productSchema');
 const catReqModel = require('../models/categoryRequests'); 
 const authTokenM = require('../Authorization/merchantAuth');
 const bodyParser = require('body-parser');
@@ -12,12 +13,43 @@ const authenticateM = require('../Authenticate/merchantAuthenticate');
 const jwt = require('jsonwebtoken');
 const category = require('../models/categorySchema');
 const subCategoryR= require('../models/subCatReq');
-const subCategory =require('../models/subCatSchema')
-
-// router.use((req,res,next)=>{
-//     console.log(req.url);
-//     next();
-// })
+const subCategory =require('../models/subCatSchema');
+const randomstring = require("randomstring");
+//image uploading
+const fs = require('fs'); 
+const path = require('path'); 
+const multer = require('multer'); 
+//__dirname+'/uploads/'
+const storage = multer.diskStorage({ 
+	destination:function (req, file, cb) {
+        cb(null,__dirname + '/../uploads/productImages/' )
+      }, 
+	filename: (req, file, cb) => { 
+		cb(null, file.fieldname + '-' + Date.now()+randomstring.generate(7) + path.extname(file.originalname))
+	} 
+}); 
+//init upload
+var upload = multer({
+     storage: storage
+}).any(); 
+/////////////////////////////////////////////////////////
+router.post('/addProduct',(req,res)=>{
+    upload(req,res,(err)=>{
+        if(err){
+        console.log(err);}
+        else{
+            console.log(req.body);
+            console.log(req.files);
+            res.redirect('/merchant/addProduct?success');
+        }
+    })
+})
+////////////////////////////////////////////////////
+router.get('/addProduct',(req,res)=>{
+    ejs.renderFile('./views/merchant/AddProduct.ejs', {}, {}, function(err, template){
+        res.send(template);
+    });   
+});
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.get('/login',(req,res)=>{
@@ -65,11 +97,7 @@ router.get('/register',(req,res)=>{
     });   
 });
 
-router.get('/addProduct',(req,res)=>{
-    ejs.renderFile('./views/merchant/AddProduct.ejs', {}, {}, function(err, template){
-        res.send(template);
-    });   
-});
+
 
 router.post('/register',(req,res)=>{
     
