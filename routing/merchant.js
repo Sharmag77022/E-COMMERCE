@@ -30,17 +30,46 @@ const storage = multer.diskStorage({
 }); 
 //init upload
 var upload = multer({
-     storage: storage
+     storage: storage,
+     limits: {fileSize:2000000},
+     fileFilter: function(req,file,cb){
+         checkFileType(file,cb);
+     }
 }).any(); 
+
+function checkFileType(file,cb){
+    const filetypes=/jpeg|jpg|png|gif/;
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
+    if(mimetype && extname){
+        return cb(null,true);
+    }else{
+        cb('Failed:file_invalid')
+    }
+}
 /////////////////////////////////////////////////////////
 router.post('/addProduct',(req,res)=>{
     upload(req,res,(err)=>{
         if(err){
-        console.log(err);}
+        console.log(err);
+        res.redirect('/merchant/addProduct?'+err);
+    }
         else{
-            console.log(req.body);
-            console.log(req.files);
-            res.redirect('/merchant/addProduct?success');
+            const newProduct= new productModel({name: req.body.productName, 
+                desc: req.body.discription, 
+                price:req.body.price,
+                cat: req.body.scat,
+                images: req.files});
+                newProduct.save((err,data)=>{
+                    if(err){
+                        console.log(err);
+                        res.redirect('/merchant/addProduct?NotAdded');
+                    }
+                    else{
+                        console.log('New Product Added');
+                        res.redirect('/merchant/addProduct?AddedSuccessfully');
+                    }
+                })
         }
     })
 })

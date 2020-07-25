@@ -5,25 +5,8 @@ var ProductSchema = new mongoose.Schema({
     desc: String, 
     price:Number,
     cat: String,
-    images: 
-    {  
-        img1:{
-        data: Buffer, 
-        contentType: String 
-        } ,
-        img2:{
-            data: Buffer, 
-            contentType: String 
-        },
-        img3:{
-            data: Buffer, 
-            contentType: String 
-        },
-        img4:{
-            data: Buffer, 
-            contentType: String 
-        }
-    }
+    images: []
+    
 }); 
 const product = new mongoose.model('Products', ProductSchema); 
 module.exports = product
