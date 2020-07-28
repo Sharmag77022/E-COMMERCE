@@ -15,6 +15,11 @@ const category = require('../models/categorySchema');
 const subCategoryR= require('../models/subCatReq');
 const subCategory =require('../models/subCatSchema');
 const randomstring = require("randomstring");
+
+
+merchantModel.find({}, null, { limit: 2,skip:2}).then(data=>{
+   // console.log(data.length);
+});
 //image uploading
 const fs = require('fs'); 
 const path = require('path'); 
@@ -48,15 +53,18 @@ function checkFileType(file,cb){
     }
 }
 /////////////////////////////////////////////////////////
-router.post('/addProduct',(req,res)=>{
+router.post('/addProduct',authTokenM,(req,res)=>{
     upload(req,res,(err)=>{
         if(err){
         console.log(err);
         res.redirect('/merchant/addProduct?'+err);
     }
         else{
+            var new1 = req.merchant.split(",");
+            var id=new1[0].slice(7);
             const newProduct= new productModel({name: req.body.productName, 
                 desc: req.body.discription, 
+                sellerId:id,
                 price:req.body.price,
                 cat: req.body.scat,
                 images: req.files});
@@ -193,5 +201,50 @@ router.post('/categoryR',authTokenM,(req,res)=>{
                 }
     })
 })
+// router.get('/test',(req,res)=>{
+//     fs.readdir( __dirname+'/../uploads/productImages',  (err,data)=>{
+//         if(err){console.log(err)}
+//         productModel.findById({_id:"5f1c133801a1a811286d53bd"}).then(dat=>{
+//             //console.log(dat.images[0].filename);
+//             let a= dat.images[0].filename;
+//             for(let i=0;i<data.length;i++){
+//                 if(data[i]==a){
+//                     typeof(data[i]);
+//                    // res.sendFile(data[i]);
+//                 }
+//             }
+//                // res.send();
+//         })
+//         console.log(typeof(data));
+        
+//     } )
+// })
+router.get('/products',authTokenM,(req,res)=>{
+    var new1 = req.merchant.split(",");
+    var id=new1[0].slice(7);
+    productModel.find({sellerId:id}).then(data=>{
+           console.log(data);
+            ejs.renderFile('./views/merchant/products.ejs', {data}, {}, function(err, template){
+            res.send(template);
+        })
+        });
+    })
+   //
+   router.get('/moreProducts',authTokenM,async(req,res)=>{
+      var skip= parseInt(req.query.skip);  
+    const count = await productModel.countDocuments().then(count=>{
+            return count;
+         })
+        if(skip>=count){
+            skip= skip%count;
+            if(skip<5){
+                    skip=0;
+            }
+        }
+        productModel.find({}, null, { limit: 5,skip:skip}).then(data=>{
+            res.json(data);
+         });
+       // console.log(skip);
+    }) 
 
 module.exports = router;

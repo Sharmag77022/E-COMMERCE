@@ -17,7 +17,7 @@ connection();
 app.set('view engine', 'ejs');
 app.use(cookieParser());
 app.use(express.static('public'));
-
+app.use('/pImg', express.static('uploads/productImages'))
 app.use((req, res, next) => {
     res.set('Cache-Control', 'no-store');
     next();
