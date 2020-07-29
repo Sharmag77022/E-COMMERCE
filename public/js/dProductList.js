@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded',()=>{
     const container = document.getElementById('pContainer');
-    var skip = 5;
+    var skip = 12;
     function loadProducts(){
         console.log('hello');
         //Getting Products
-        fetch('/merchant/moreProducts?skip='+skip,{
+        fetch('/moreProducts?skip='+skip,{
             credentials: "same-origin",
             method: 'GET'
         }).then(res=>{
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded',()=>{
               }).catch(err=>{
                   console.log(err);
               });
-              skip= skip+5;
+              skip= skip+12;
             }
      
     window.addEventListener('scroll',()=>{

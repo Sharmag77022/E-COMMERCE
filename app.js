@@ -13,6 +13,7 @@ const authToken = require('./Authorization/userAuth');
 const cookieAuth = require('./Authorization/cookieAuth');
 const authTokenM = require('./Authorization/merchantAuth');
 const authTokenA = require('./Authorization/adminAuth');
+const productModel = require('./models/productSchema');
 connection();
 app.set('view engine', 'ejs');
 app.use(cookieParser());
@@ -33,21 +34,44 @@ app.use('/user',user);
 app.use('/merchant',merchant);
 app.use('/admin',admin);
 
-app.get('/',authToken,(req,res)=>
+app.get('/',authToken, async (req,res)=>
 {
+    const products = await productModel.find({},null,{limit:12}).then(data=>{
+        //console.log(data);
+        return data;
+    })
     category.find().then(data=>{
         subCategory.find().then((sdata)=>{
-            var dataC= {categories:{data1:data,data2:sdata}};
+            var dataC= {categories:{data1:data,data2:sdata},products:products};
+            //console.log(dataC);
             ejs.renderFile('./views/dashboard.ejs', {dataC}, {}, function(err, template){
-                // if(err){
-                //     console.log(err);
-                // }
+                if(err){
+                    console.log(err);
+                }
                 return res.status(301).send(template);
         })
      });  
     })
     
 });
+//Load More Products on scroll
+app.get('/moreProducts',async(req,res)=>{
+    var skip= parseInt(req.query.skip);  
+  const count = await productModel.countDocuments().then(count=>{
+          
+          return count;
+       })
+       console.log(count);
+      if(skip>=count){
+          skip= skip%count;
+          if(skip<5){
+                  skip=0;
+          }
+      }
+      productModel.find({}, null, { limit: 12,skip:skip}).then(data=>{
+          res.json(data);
+       });
+  }) 
 app.get('/merchant',authTokenM,(req,res)=>
 {   
     ejs.renderFile('./views/merchant/dashboardM.ejs', {}, {}, function(err, template){      

@@ -61,4 +61,5 @@ router.get('/logout',(req,res)=>{
     res.clearCookie('accessToken');
     res.redirect('/user/login');
 })
+
 module.exports = router;

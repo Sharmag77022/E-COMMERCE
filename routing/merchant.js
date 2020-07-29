@@ -201,29 +201,11 @@ router.post('/categoryR',authTokenM,(req,res)=>{
                 }
     })
 })
-// router.get('/test',(req,res)=>{
-//     fs.readdir( __dirname+'/../uploads/productImages',  (err,data)=>{
-//         if(err){console.log(err)}
-//         productModel.findById({_id:"5f1c133801a1a811286d53bd"}).then(dat=>{
-//             //console.log(dat.images[0].filename);
-//             let a= dat.images[0].filename;
-//             for(let i=0;i<data.length;i++){
-//                 if(data[i]==a){
-//                     typeof(data[i]);
-//                    // res.sendFile(data[i]);
-//                 }
-//             }
-//                // res.send();
-//         })
-//         console.log(typeof(data));
-        
-//     } )
-// })
 router.get('/products',authTokenM,(req,res)=>{
     var new1 = req.merchant.split(",");
     var id=new1[0].slice(7);
     productModel.find({sellerId:id}).then(data=>{
-           console.log(data);
+          // console.log(data);
             ejs.renderFile('./views/merchant/products.ejs', {data}, {}, function(err, template){
             res.send(template);
         })
@@ -231,17 +213,21 @@ router.get('/products',authTokenM,(req,res)=>{
     })
    //
    router.get('/moreProducts',authTokenM,async(req,res)=>{
-      var skip= parseInt(req.query.skip);  
-    const count = await productModel.countDocuments().then(count=>{
+      var skip= parseInt(req.query.skip); 
+      var new1 = req.merchant.split(",");
+      var id=new1[0].slice(7); 
+    const count = await productModel.countDocuments({sellerId:id}).then(count=>{
+            
             return count;
          })
+         console.log(count);
         if(skip>=count){
             skip= skip%count;
             if(skip<5){
                     skip=0;
             }
         }
-        productModel.find({}, null, { limit: 5,skip:skip}).then(data=>{
+        productModel.find({sellerId:id}, null, { limit: 5,skip:skip}).then(data=>{
             res.json(data);
          });
        // console.log(skip);

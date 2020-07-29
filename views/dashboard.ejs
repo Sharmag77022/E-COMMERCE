@@ -60,5 +60,20 @@
             </nav>
         </div>
         <!-- end of categories section -->
+        <div class="row" id="pContainer">
+            <%for(let i=0;i<dataC.products.length;i++){%>
+                <div class="col-sm-6 col-lg-3 mb-2">
+          <div class="card" style="width: 20rem; ">      
+        <img class="card-img-top" src="/pImg/<%= dataC.products[i].images[0].filename %>" alt="Product Image">
+        
+            
+            <div class="card-body">
+              <p class="card-text text-success text-center h3"><%=dataC.products[i].name%></p>
+              <p class=" card-text text-right text-danger"><%=dataC.products[i].price%>&nbsp;&#8377;</p>
+    
+            </div>
+          </div></div>
+            <%}%></div>
+        <script src="/js/dProductList.js"></script>    
     </body>
  </html>
