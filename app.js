@@ -64,7 +64,7 @@ app.get('/moreProducts',async(req,res)=>{
        console.log(count);
       if(skip>=count){
           skip= skip%count;
-          if(skip<5){
+          if(skip<12){
                   skip=0;
           }
       }
