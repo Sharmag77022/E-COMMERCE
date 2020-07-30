@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded',()=>{
             for(let i=0;i<data.length;i++){
               const div1= document.createElement('div') ;
               div1.classList.add('col-sm-6', 'col-lg-3', 'mb-2', 'mx-auto'); 
+              const plink = document.createElement('a');
+              plink.setAttribute('href','/product?p='+data[i]._id);
+              plink.style.textDecoration ='none';
               const div2= document.createElement('div') ;
               div2.classList.add("card"); 
               div2.style.width = '20rem';
@@ -35,7 +38,8 @@ document.addEventListener('DOMContentLoaded',()=>{
               div3.appendChild(p2);
               div2.appendChild(img);
               div2.appendChild(div3);
-              div1.appendChild(div2);
+              plink.appendChild(div2);
+              div1.appendChild(plink);
               container.appendChild(div1);
             }
               }).catch(err=>{

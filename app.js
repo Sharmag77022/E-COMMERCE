@@ -43,7 +43,7 @@ app.get('/',authToken, async (req,res)=>
     category.find().then(data=>{
         subCategory.find().then((sdata)=>{
             var dataC= {categories:{data1:data,data2:sdata},products:products};
-            //console.log(dataC);
+            //console.log(dataC.products);
             ejs.renderFile('./views/dashboard.ejs', {dataC}, {}, function(err, template){
                 if(err){
                     console.log(err);
@@ -61,7 +61,7 @@ app.get('/moreProducts',async(req,res)=>{
           
           return count;
        })
-       console.log(count);
+      // console.log(count);
       if(skip>=count){
           skip= skip%count;
           if(skip<12){
@@ -69,6 +69,7 @@ app.get('/moreProducts',async(req,res)=>{
           }
       }
       productModel.find({}, null, { limit: 12,skip:skip}).then(data=>{
+          //console.log(data);
           res.json(data);
        });
   }) 
@@ -84,5 +85,14 @@ app.get('/admin',authTokenA,(req,res)=>
         return res.status(301).send(template);
     });  
 });
-
+app.get('/product',(req,res)=>{
+   const pId= req.query.p;
+   productModel.find({_id:pId}).then(data=>{
+       console.log(data.name);
+    ejs.renderFile('./views/product.ejs',{data},{},function(err,template){
+       return res.status(301).send(template);
+    })   
+   })
+   
+})
 app.listen(3000,()=>console.log('server is running at 3000'));
