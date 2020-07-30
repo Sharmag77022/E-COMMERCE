@@ -88,8 +88,10 @@ app.get('/admin',authTokenA,(req,res)=>
 app.get('/product',(req,res)=>{
    const pId= req.query.p;
    productModel.find({_id:pId}).then(data=>{
-       console.log(data.name);
+       console.log(data);
     ejs.renderFile('./views/product.ejs',{data},{},function(err,template){
+        if(err){console.log(err)
+        };
        return res.status(301).send(template);
     })   
    })
