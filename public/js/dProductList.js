@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded',()=>{
              return res.json();   
             }
         }).then(data=>{
+           // console.log(data[11].desc.replace(/\n/g,"<br/>"));
             for(let i=0;i<data.length;i++){
               const div1= document.createElement('div') ;
               div1.classList.add('col-sm-6', 'col-lg-3', 'mb-2', 'mx-auto'); 

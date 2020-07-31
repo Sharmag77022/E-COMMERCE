@@ -21,7 +21,7 @@
         width: 100%;
         height: 100%;
          }
-         
+        
           </style> 
          <link href="https://fonts.googleapis.com/css?family=Oswald" rel=“stylesheet”>
     </head>
@@ -29,7 +29,7 @@
     <body id="mainBody">
         <div id="includedContent" ></div>
         <!-- Name OF Product -->
-        <div class="row">
+        <div class="row" >
         <div class="card col-sm-6 col-lg-4 mx-auto " style="background-color: powderblue;">
             <div class="card-body">
                 <h1 class="text-center text-success"><%=data[0].name%></h1>
@@ -38,12 +38,12 @@
         <!-- image Slider -->
         <div class="row" id="product-images">
             <div class="col-sm-8 mx-auto">
-        <div id="demo" class="carousel slide" data-ride="carousel" data-interval="false">
+        <div id="pImages" class="carousel slide" data-ride="carousel" data-interval="false">
 
             <!-- Indicators -->
             <ul class="carousel-indicators">
                 <%for(let i=0;i<data[0].images.length;i++){%>
-              <li data-target="#demo" data-slide-to="<%i%>" <%if(i==0){%>class= "active"<%}%>  ></li>
+              <li data-target="#pImages" data-slide-to="<%i%>" <%if(i==0){%>class= "active"<%}%>  ></li>
               <%}%>
             </ul>
             
@@ -55,21 +55,39 @@
                 <img src="/pImg/<%=data[0].images[i].filename%>" alt="product-image" width="1100" height="500">
               </div>
               <%}%>
-              <!-- <div class="carousel-item">
-                <img src="https://images.unsplash.com/photo-1535332371349-a5d229f49cb5?ixlib=rb-1.2.1&w=1000&q=80" alt="Chicago" width="1100" height="500">
-              </div>
-              <div class="carousel-item">
-                <img src="https://images.unsplash.com/photo-1503803548695-c2a7b4a5b875?ixlib=rb-1.2.1&w=1000&q=80" alt="New York" width="1100" height="500">
-              </div> -->
             </div>
             
             <!-- Left and right controls -->
-            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+            <a class="carousel-control-prev" href="#pImages" data-slide="prev">
               <span class="carousel-control-prev-icon"></span>
             </a>
-            <a class="carousel-control-next" href="#demo" data-slide="next">
+            <a class="carousel-control-next" href="#pImages" data-slide="next">
               <span class="carousel-control-next-icon"></span>
             </a>
-          </div></div></div>
+          </div></div></div><br>
+          <!-- Product Description -->
+          <div class="row">
+          <div class="card text-center col-sm-6 mx-auto" style="background-color: powderblue;">
+            <div class="card-header ">
+             <p class="h3"> Description</p>
+            </div>
+            <div class="card-body ">
+              <!-- <h5 class="card-title">Special title treatment</h5> -->
+              <%var desc=data[0].desc.split("\r")%>
+              <ul class="card-text" style="list-style-type:none;">
+                <%for(let i=0;i<desc.length;i++){%>
+                  <li><%=desc[i]%></li>
+                  <%}%>
+              </ul>
+              <!-- <p class="card-text h3"></p>-->
+              </div> 
+            </div>
+          </div><br>
+          <div class="row justify-content-center">
+            
+          <button type="button" class="btn btn-success mr-4 buy" id="<%=data[0]._id%>" >Buy Now</button>
+            
+          <button type="button" class="btn btn-success cart" id="<%=data[0]._id%>" >Add to Cart</button>
+          </div>
     </body>
  </html>
