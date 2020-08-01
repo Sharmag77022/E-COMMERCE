@@ -36,8 +36,10 @@ app.use('/admin',admin);
 
 app.get('/',authToken, async (req,res)=>
 {
+    var new1 = req.user.split(",");
+     var id=new1[0].slice(7);
     const products = await productModel.find({},null,{limit:12}).then(data=>{
-        //console.log(data);
+       // console.log(typeof(req.user));
         return data;
     })
     category.find().then(data=>{
@@ -86,9 +88,10 @@ app.get('/admin',authTokenA,(req,res)=>
     });  
 });
 app.get('/product',(req,res)=>{
-   const pId= req.query.p;
+        const pId= req.query.p;
+//    var new1 = req.user.split(",");
+//      var id=new1[0].slice(7);
    productModel.find({_id:pId}).then(data=>{
-       console.log(data);
     ejs.renderFile('./views/product.ejs',{data},{},function(err,template){
         if(err){console.log(err)
         };

@@ -65,6 +65,17 @@
               <span class="carousel-control-next-icon"></span>
             </a>
           </div></div></div><br>
+          <!-- messages -->
+          <div class="row">
+          <div id="msg" class="col-sm-8 col-lg-5 mx-auto" ></div></div>
+          <!-- Buy and Add to cart Buttons -->
+          <div class="row justify-content-center">
+            
+            <button type="button" class="btn btn-success mr-4 buy" id="<%=data[0]._id%>" >Buy Now</button>
+              
+            <button type="button" class="btn btn-success cart" id="<%=data[0]._id%>" >Add to Cart</button>
+            </div>
+            <br>
           <!-- Product Description -->
           <div class="row">
           <div class="card text-center col-sm-6 mx-auto" style="background-color: powderblue;">
@@ -72,22 +83,18 @@
              <p class="h3"> Description</p>
             </div>
             <div class="card-body ">
-              <!-- <h5 class="card-title">Special title treatment</h5> -->
               <%var desc=data[0].desc.split("\r")%>
               <ul class="card-text" style="list-style-type:none;">
                 <%for(let i=0;i<desc.length;i++){%>
                   <li><%=desc[i]%></li>
                   <%}%>
               </ul>
-              <!-- <p class="card-text h3"></p>-->
               </div> 
             </div>
           </div><br>
-          <div class="row justify-content-center">
-            
-          <button type="button" class="btn btn-success mr-4 buy" id="<%=data[0]._id%>" >Buy Now</button>
-            
-          <button type="button" class="btn btn-success cart" id="<%=data[0]._id%>" >Add to Cart</button>
-          </div>
+          
+         
+          <script src="/js/buyProduct.js"></script>
+          <script src="/js/addCart.js"></script>
     </body>
  </html>
