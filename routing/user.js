@@ -80,9 +80,9 @@ router.get('/addToCart',authToken,(req,res)=>{
         })
         cart.save((err,p)=>{
             if(err){
-                res.json({msg:"Failed: There is some error in adding Product to cart!"});
+                res.json({msg:"Failed: There is some error in adding Product to cart!",flag:1});
             }else{
-                res.json({msg:"Success: Product is Added to Cart!"});
+                res.json({msg:"Success: Product is Added to Cart!",flag:0});
             }
         })
         }else{
@@ -90,9 +90,9 @@ router.get('/addToCart',authToken,(req,res)=>{
                 res.json({msg:"Failed: You Can Only Add Max Quantity Of Two!"})
             }else{
             cartModel.findOneAndUpdate({userId:userId,pId:pId}, { quantity:data[0].quantity+1 }, {new:true,useFindAndModify:false}).then(dat=>{
-                res.json({msg:"Success: Product is Added to Cart!"});
+                res.json({msg:"Success: Product is Added to Cart!",flag:0});
             }).catch(err=>{
-                res.json({msg:"Failed: There is some error in adding Product to cart!"});
+                res.json({msg:"Failed: There is some error in adding Product to cart!",flag:1});
             })
         }
         }
@@ -100,5 +100,10 @@ router.get('/addToCart',authToken,(req,res)=>{
         console.log(err);
     })
 
+})
+router.get('/cart',authToken,(req,res)=>{
+    ejs.renderFile('./views/cart.ejs',{},{},(err,template)=>{
+        res.send(template);
+    })
 })
 module.exports = router;

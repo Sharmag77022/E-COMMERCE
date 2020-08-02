@@ -9,6 +9,7 @@ const subCategory = require('./models/subCatSchema');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 let ejs = require('ejs');
+const cartModel = require('./models/cartSchema');
 const authToken = require('./Authorization/userAuth');
 const cookieAuth = require('./Authorization/cookieAuth');
 const authTokenM = require('./Authorization/merchantAuth');
@@ -34,12 +35,10 @@ app.use('/user',user);
 app.use('/merchant',merchant);
 app.use('/admin',admin);
 
-app.get('/',authToken, async (req,res)=>
+app.get('/', authToken,async (req,res)=>
 {
-    var new1 = req.user.split(",");
-     var id=new1[0].slice(7);
+   
     const products = await productModel.find({},null,{limit:12}).then(data=>{
-       // console.log(typeof(req.user));
         return data;
     })
     category.find().then(data=>{
@@ -89,8 +88,6 @@ app.get('/admin',authTokenA,(req,res)=>
 });
 app.get('/product',(req,res)=>{
         const pId= req.query.p;
-//    var new1 = req.user.split(",");
-//      var id=new1[0].slice(7);
    productModel.find({_id:pId}).then(data=>{
     ejs.renderFile('./views/product.ejs',{data},{},function(err,template){
         if(err){console.log(err)
@@ -99,5 +96,19 @@ app.get('/product',(req,res)=>{
     })   
    })
    
+})
+app.get('/cartQuantity',authToken,async(req,res)=>{
+    var new1 = req.user.split(",");
+    var id=new1[0].slice(7);
+   const cartQ = await cartModel.find({userId:id},'quantity').then(data=>{
+       var q=0;
+       for(let i=0;i<data.length;i++){
+           q=q+data[i].quantity;
+       }
+       return q;
+   }).catch(err=>{
+       console.log(err);
+   })
+   res.json(cartQ);
 })
 app.listen(3000,()=>console.log('server is running at 3000'));
