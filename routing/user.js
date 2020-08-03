@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const authenticateUser = require('../Authenticate/userAuthenticate');
 const authToken = require('../Authorization/userAuth');
 const cartModel = require('../models/cartSchema');
+const productModel = require('../models/productSchema');
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
@@ -101,9 +102,37 @@ router.get('/addToCart',authToken,(req,res)=>{
     })
 
 })
-router.get('/cart',authToken,(req,res)=>{
-    ejs.renderFile('./views/cart.ejs',{},{},(err,template)=>{
+router.get('/cart',authToken,async(req,res)=>{
+    var new1 = req.user.split(",");
+    var userId=new1[0].slice(7);
+    var product=[];
+    var totalPrice=0;
+    const cart = await cartModel.find({userId:userId}).then(data=>{
+        return data;
+    })
+    //console.log(cart);
+    for(let i=0;i<cart.length;i++){
+        var p =await productModel.find({_id:cart[i].pId},'name _id price images').then(data=>{
+            return data;
+        })
+        totalPrice = totalPrice + p[0].price;
+        product.push([{pId:cart[i].pId,price:p[0].price,image:p[0].images[0].filename,quantity:cart[i].quantity,name:p[0].name}]);    
+    }
+    var data={products:product,price:totalPrice}
+    ejs.renderFile('./views/cart.ejs',{data},{},(err,template)=>{
         res.send(template);
+    })
+})
+router.get('/removeCart',authToken,(req,res)=>{
+    var new1 = req.user.split(",");
+    var userId=new1[0].slice(7);
+    cartModel.findOneAndDelete({userId:userId,pId:req.query.pid},{},(err,data)=>{
+        //console.log(data);
+        if(err){
+            res.status(500).send();
+        }else{
+            res.status(200).send();
+        }
     })
 })
 module.exports = router;

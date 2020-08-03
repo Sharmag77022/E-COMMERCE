@@ -16,10 +16,11 @@ document.addEventListener('DOMContentLoaded',()=>{
            // console.log(data[11].desc.replace(/\n/g,"<br/>"));
             for(let i=0;i<data.length;i++){
               const div1= document.createElement('div') ;
-              div1.classList.add('col-sm-6', 'col-lg-3', 'mb-2', 'mx-auto'); 
+              div1.classList.add('col-sm-6', 'col-lg-4', 'mb-2', 'col-xl-3','pt-2','col-xs-12'); 
               const plink = document.createElement('a');
               plink.setAttribute('href','/product?p='+data[i]._id);
               plink.style.textDecoration ='none';
+              plink.classList.add("d-flex","justify-content-center")
               const div2= document.createElement('div') ;
               div2.classList.add("card"); 
               div2.style.width = '20rem';
