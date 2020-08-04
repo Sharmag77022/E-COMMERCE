@@ -125,13 +125,19 @@ router.get('/cart',authToken,async(req,res)=>{
 })
 router.get('/removeCart',authToken,(req,res)=>{
     var new1 = req.user.split(",");
+    console.log(req.url);
     var userId=new1[0].slice(7);
-    cartModel.findOneAndDelete({userId:userId,pId:req.query.pid},{},(err,data)=>{
-        //console.log(data);
+    cartModel.findOneAndDelete({userId:userId,pId:req.query.pId},{},(err,data)=>{
+       // console.log(data);
         if(err){
+            console.log(err);
             res.status(500).send();
+        }
+        if(data){
+            //console.log(data.quantity);
+            res.status(200).json({quantity:data.quantity});
         }else{
-            res.status(200).send();
+            res.status(500).send();
         }
     })
 })
