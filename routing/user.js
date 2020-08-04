@@ -110,12 +110,12 @@ router.get('/cart',authToken,async(req,res)=>{
     const cart = await cartModel.find({userId:userId}).then(data=>{
         return data;
     })
-    //console.log(cart);
+    console.log(cart);
     for(let i=0;i<cart.length;i++){
         var p =await productModel.find({_id:cart[i].pId},'name _id price images').then(data=>{
             return data;
         })
-        totalPrice = totalPrice + p[0].price;
+        totalPrice = totalPrice + cart[i].quantity*p[0].price;
         product.push([{pId:cart[i].pId,price:p[0].price,image:p[0].images[0].filename,quantity:cart[i].quantity,name:p[0].name}]);    
     }
     var data={products:product,price:totalPrice}
@@ -125,16 +125,14 @@ router.get('/cart',authToken,async(req,res)=>{
 })
 router.get('/removeCart',authToken,(req,res)=>{
     var new1 = req.user.split(",");
-    console.log(req.url);
     var userId=new1[0].slice(7);
     cartModel.findOneAndDelete({userId:userId,pId:req.query.pId},{},(err,data)=>{
-       // console.log(data);
         if(err){
             console.log(err);
             res.status(500).send();
         }
         if(data){
-            //console.log(data.quantity);
+            console.log(data);
             res.status(200).json({quantity:data.quantity});
         }else{
             res.status(500).send();
