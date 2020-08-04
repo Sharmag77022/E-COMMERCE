@@ -63,12 +63,7 @@ router.get('/logout',(req,res)=>{
     res.clearCookie('accessToken');
     res.redirect('/user/login');
 })
-router.get('/buy',authToken,(req,res)=>{
-     
-    //console.log(req.user.name)
-    const pId = req.query.pId;
-    //console.log(pId);
-})
+
 router.get('/addToCart',authToken,(req,res)=>{
     var new1 = req.user.split(",");
     var userId=new1[0].slice(7);
@@ -110,7 +105,7 @@ router.get('/cart',authToken,async(req,res)=>{
     const cart = await cartModel.find({userId:userId}).then(data=>{
         return data;
     })
-    console.log(cart);
+    //console.log(cart);
     for(let i=0;i<cart.length;i++){
         var p =await productModel.find({_id:cart[i].pId},'name _id price images').then(data=>{
             return data;
@@ -132,11 +127,34 @@ router.get('/removeCart',authToken,(req,res)=>{
             res.status(500).send();
         }
         if(data){
-            console.log(data);
             res.status(200).json({quantity:data.quantity});
         }else{
             res.status(500).send();
         }
     })
 })
+router.get('/account',authToken,(req,res)=>{
+    var new1 = req.user.split(",");
+    var userId=new1[0].slice(7);
+    userModel.findById(userId,'name email address').then(data=>{
+        ejs.renderFile('./views/account.ejs', {data}, {}, function(err, template){
+            res.send(template);
+        });
+    })
+})
+
+router.get('/buy',authToken,(req,res)=>{
+    var new1 = req.user.split(",");
+    var userId=new1[0].slice(7);
+    userModel.find({_id:userId},'name email address').then(data=>{
+        ejs.renderFile('./views/delivery.ejs',{data},{},function(err,template){
+            if(err){
+                console.log(err);
+            }
+            res.send(template);
+        })
+    }) 
+})
+
+
 module.exports = router;

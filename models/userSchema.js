@@ -5,10 +5,11 @@ const userSchema = new mongoose.Schema({
     email:{type:String,required:true},
     password:{type:String,required:true},
     address:{
-        hNo:{type:Number},
-        city:{type:String},
-        district:{type:String},
-        state:{type:String}
+        hNo:{type:Number,default: '0'},
+        city:{type:String,default: 'blank'},
+        district:{type:String,default: 'blank'},
+        pincode:{type:Number,default: '000000'},
+        state:{type:String,default: 'blank'}     
     }
 });
 

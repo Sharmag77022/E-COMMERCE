@@ -25,14 +25,14 @@
     </head>
 
     <body id="mainBody">
-        <div id="includedContent" ></div>
+        <div id="includedContent" ></div><br>
         <!-- Name OF Product -->
         <div class="row" >
         <div class="card col-sm-6 col-lg-4 mx-auto " style="background-color: powderblue;">
             <div class="card-body">
                 <h1 class="text-center text-success"><%=data[0].name%></h1>
             </div>
-        </div></div>
+        </div></div><br>
         <!-- image Slider -->
         <div class="row" id="product-images">
             <div class="col-sm-8 mx-auto">
@@ -69,7 +69,7 @@
           <!-- Buy and Add to cart Buttons -->
           <div class="row justify-content-center">
             
-            <button type="button" class="btn btn-success mr-4 buy" id="<%=data[0]._id%>" >Buy Now</button>
+            <a class="btn btn-success mr-4" href="/user/buy?pId=<%=data[0]._id%>" >Buy Now</a>
               
             <button type="button" class="btn btn-success cart" id="<%=data[0]._id%>" >Add to Cart</button>
             </div>

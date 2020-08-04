@@ -30,7 +30,6 @@ app.use(cookieAuth);
 
 app.use(express.json());
 
-
 app.use('/user',user);
 app.use('/merchant',merchant);
 app.use('/admin',admin);
