@@ -43,7 +43,6 @@ app.get('/', authToken,async (req,res)=>
     category.find().then(data=>{
         subCategory.find().then((sdata)=>{
             var dataC= {categories:{data1:data,data2:sdata},products:products};
-            //console.log(dataC.products);
             ejs.renderFile('./views/dashboard.ejs', {dataC}, {}, function(err, template){
                 if(err){
                     console.log(err);
@@ -97,8 +96,7 @@ app.get('/product',(req,res)=>{
    
 })
 app.get('/cartQuantity',authToken,async(req,res)=>{
-    var new1 = req.user.split(",");
-    var id=new1[0].slice(7);
+    var id=req.user._id;
    const cartQ = await cartModel.find({userId:id},'quantity').then(data=>{
        var q=0;
        for(let i=0;i<data.length;i++){

@@ -15,11 +15,6 @@ const category = require('../models/categorySchema');
 const subCategoryR= require('../models/subCatReq');
 const subCategory =require('../models/subCatSchema');
 const randomstring = require("randomstring");
-
-
-merchantModel.find({}, null, { limit: 2,skip:2}).then(data=>{
-   // console.log(data.length);
-});
 //image uploading
 const fs = require('fs'); 
 const path = require('path'); 
@@ -60,8 +55,7 @@ router.post('/addProduct',authTokenM,(req,res)=>{
         res.redirect('/merchant/addProduct?'+err);
     }
         else{
-            var new1 = req.merchant.split(",");
-            var id=new1[0].slice(7);
+            var id=req.merchant._id;
             const newProduct= new productModel({name: req.body.productName, 
                 desc: req.body.discription, 
                 sellerId:id,
@@ -97,8 +91,7 @@ router.get('/login',(req,res)=>{
 
 router.post('/catRequest',authTokenM,(req,res)=>{
     category.findById(req.body.PId).then((data)=>{
-            var new1 = req.merchant.split(",");
-            var id=new1[0].slice(7);
+            var id=req.merchant._id;
             const newSubCat = new subCategoryR({CatId:req.body.PId,name:req.body.name,pName:data.name,mId:id});
         newSubCat.save((err,data)=>{
             if(err){
@@ -168,7 +161,7 @@ router.post('/register',(req,res)=>{
     })
 })
 router.post('/loginM',authenticateM,(req,res)=>{
-    const accessToken = jwt.sign( (req.merchant).toString(),process.env.ACCESS_TOKEN_MERCHANT);
+    const accessToken = jwt.sign( req.merchant,process.env.ACCESS_TOKEN_MERCHANT);
     res.cookie('accessToken',accessToken);
     res.redirect('/merchant');  
 });
@@ -184,8 +177,7 @@ router.get('/logoutM',(req,res)=>{
     res.redirect('/merchant/login');
 })
 router.post('/categoryR',authTokenM,(req,res)=>{
-    var new1 = req.merchant.split(",");
-    var id=new1[0].slice(7);
+    var id=req.merchant._id;
     const catRequest = new catReqModel({MerchantId:id,name:req.body.category});
             
      catRequest.save((err,category)=>{
@@ -202,8 +194,7 @@ router.post('/categoryR',authTokenM,(req,res)=>{
     })
 })
 router.get('/products',authTokenM,(req,res)=>{
-    var new1 = req.merchant.split(",");
-    var id=new1[0].slice(7);
+    var id=req.merchant._id;
     productModel.find({sellerId:id}).then(data=>{
           // console.log(data);
             ejs.renderFile('./views/merchant/products.ejs', {data}, {}, function(err, template){
@@ -214,8 +205,7 @@ router.get('/products',authTokenM,(req,res)=>{
    //
    router.get('/moreProducts',authTokenM,async(req,res)=>{
       var skip= parseInt(req.query.skip); 
-      var new1 = req.merchant.split(",");
-      var id=new1[0].slice(7); 
+      var id=req.merchant._id; 
     const count = await productModel.countDocuments({sellerId:id}).then(count=>{
             
             return count;

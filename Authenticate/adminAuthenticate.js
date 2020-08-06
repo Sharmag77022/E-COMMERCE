@@ -9,7 +9,7 @@ const authenticateAdmin =  (req,res,next)=>{
         }
         try{
             if( await bcrypt.compare(req.body.password,admin.password)){
-                req.admin= admin;
+                req.admin= admin.toObject();
                 next();
             } else {
                 res.redirect('/admin/login?passwordIncorrect')

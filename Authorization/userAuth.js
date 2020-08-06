@@ -8,9 +8,10 @@ const authToken = (req,res,next)=>{
 
     }
     jwt.verify(req.token,process.env.ACCESS_TOKEN_SECRET,(err,user)=>{
-        if(err) return res.redirect('/user/login');
+        if(err) return res.redirect('/user/login'); 
         req.user = user;
         next();
        })
 }
+
 module.exports = authToken;

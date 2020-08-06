@@ -8,7 +8,7 @@ const authenticateM =  (req,res,next)=>{
         }
         try{
             if( await bcrypt.compare(req.body.password,merchant.password)){
-                req.merchant= merchant;
+                req.merchant= merchant.toObject();
                 next();
             } else {
                 res.redirect('/merchant/login?passwordIncorrect')

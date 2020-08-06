@@ -55,7 +55,7 @@ router.post('/register',(req,res)=>{
     })
 })
 router.post('/login',authenticateUser,(req,res)=>{
-    const accessToken = jwt.sign( (req.user).toString(),process.env.ACCESS_TOKEN_SECRET);
+    const accessToken = jwt.sign( req.user,process.env.ACCESS_TOKEN_SECRET);
     res.cookie('accessToken',accessToken);
     res.redirect('/');  
 });
@@ -65,12 +65,11 @@ router.get('/logout',(req,res)=>{
 })
 
 router.get('/addToCart',authToken,(req,res)=>{
-    var new1 = req.user.split(",");
-    var userId=new1[0].slice(7);
+    var id=req.user._id;
     const pId = req.query.pId;
-    cartModel.find({userId:userId,pId:pId}).then(data=>{
+    cartModel.find({userId:id,pId:pId}).then(data=>{
         if(data==""){
-         const cart = new cartModel({userId:userId,
+         const cart = new cartModel({userId:id,
         pId:pId,
         quantity:1
         })
@@ -85,7 +84,7 @@ router.get('/addToCart',authToken,(req,res)=>{
             if(data[0].quantity==2){
                 res.json({msg:"Failed: You Can Only Add Max Quantity Of Two!"})
             }else{
-            cartModel.findOneAndUpdate({userId:userId,pId:pId}, { quantity:data[0].quantity+1 }, {new:true,useFindAndModify:false}).then(dat=>{
+            cartModel.findOneAndUpdate({userId:id,pId:pId}, { quantity:data[0].quantity+1 }, {new:true,useFindAndModify:false}).then(dat=>{
                 res.json({msg:"Success: Product is Added to Cart!",flag:0});
             }).catch(err=>{
                 res.json({msg:"Failed: There is some error in adding Product to cart!",flag:1});
@@ -98,14 +97,12 @@ router.get('/addToCart',authToken,(req,res)=>{
 
 })
 router.get('/cart',authToken,async(req,res)=>{
-    var new1 = req.user.split(",");
-    var userId=new1[0].slice(7);
+    var id=req.user._id;
     var product=[];
     var totalPrice=0;
-    const cart = await cartModel.find({userId:userId}).then(data=>{
+    const cart = await cartModel.find({userId:id}).then(data=>{
         return data;
     })
-    //console.log(cart);
     for(let i=0;i<cart.length;i++){
         var p =await productModel.find({_id:cart[i].pId},'name _id price images').then(data=>{
             return data;
@@ -119,9 +116,8 @@ router.get('/cart',authToken,async(req,res)=>{
     })
 })
 router.get('/removeCart',authToken,(req,res)=>{
-    var new1 = req.user.split(",");
-    var userId=new1[0].slice(7);
-    cartModel.findOneAndDelete({userId:userId,pId:req.query.pId},{},(err,data)=>{
+    var id=req.user._id;
+    cartModel.findOneAndDelete({userId:id,pId:req.query.pId},{},(err,data)=>{
         if(err){
             console.log(err);
             res.status(500).send();
@@ -134,9 +130,8 @@ router.get('/removeCart',authToken,(req,res)=>{
     })
 })
 router.get('/account',authToken,(req,res)=>{
-    var new1 = req.user.split(",");
-    var userId=new1[0].slice(7);
-    userModel.findById(userId,'name email address').then(data=>{
+    var id=req.user._id;
+    userModel.findById(id,'name email address').then(data=>{
         ejs.renderFile('./views/account.ejs', {data}, {}, function(err, template){
             res.send(template);
         });
@@ -144,10 +139,11 @@ router.get('/account',authToken,(req,res)=>{
 })
 
 router.get('/buy',authToken,(req,res)=>{
-    var new1 = req.user.split(",");
-    var userId=new1[0].slice(7);
-    userModel.find({_id:userId},'name email address').then(data=>{
+    var id=req.user._id;
+    console.log(new1);
+    userModel.find({_id:id},'name email address').then(data=>{
         ejs.renderFile('./views/delivery.ejs',{data},{},function(err,template){
+            console.log('abc');
             if(err){
                 console.log(err);
             }

@@ -25,7 +25,7 @@ router.get('/login',(req,res)=>{
     });
 });
 router.post('/loginA',authenticateAdmin,(req,res)=>{
-    const accessToken = jwt.sign( (req.admin).toString(),process.env.ACCESS_TOKEN_ADMIN);
+    const accessToken = jwt.sign( req.admin,process.env.ACCESS_TOKEN_ADMIN);
     res.cookie('accessToken',accessToken);
     res.redirect('/admin');  
 });

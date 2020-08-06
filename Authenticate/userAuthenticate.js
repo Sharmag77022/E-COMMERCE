@@ -9,7 +9,7 @@ const authenticateUser =  (req,res,next)=>{
         }
         try{
             if( await bcrypt.compare(req.body.password,user.password)){
-                req.user= user;
+                req.user= user.toObject();
                 next();
             } else {
                 res.redirect('/user/login?passwordIncorrect')
