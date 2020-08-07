@@ -140,10 +140,10 @@ router.get('/account',authToken,(req,res)=>{
 
 router.get('/buy',authToken,(req,res)=>{
     var id=req.user._id;
-    console.log(new1);
+    var pId = req.query.pId;
     userModel.find({_id:id},'name email address').then(data=>{
-        ejs.renderFile('./views/delivery.ejs',{data},{},function(err,template){
-            console.log('abc');
+        dataN={data:data,pId:pId};
+        ejs.renderFile('./views/delivery.ejs',{dataN},{},function(err,template){
             if(err){
                 console.log(err);
             }
@@ -152,5 +152,20 @@ router.get('/buy',authToken,(req,res)=>{
     }) 
 })
 
+router.post('/updateDelivery',authToken,(req,res)=>{
+        var id = req.user._id;
+    userModel.findByIdAndUpdate(id,{address:{
+        hNo:req.body.Hno,
+        city:req.body.City,
+        district:req.body.District,
+        pincode:req.body.Pincode,
+        state:req.body.State     
+    }},{new: true,useFindAndModify:false}).then(data=>{
+        console.log(data);
+        res.redirect('/user/buy?pId='+req.query.pId);
+    }).catch(err=>{
+        console.log(err);
+    })    
+})
 
 module.exports = router;

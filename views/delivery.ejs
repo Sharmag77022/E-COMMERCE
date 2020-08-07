@@ -14,34 +14,79 @@
 
     <body id="mainBody">
         <div id="includedContent" ></div><br>
-        <br><div class="row justify-content-center"><div class="h3 text-white text-center bg-dark p-3 col-xs-11 col-sm-6 col-lg-4">Set a Delivery Address</div></div>
+        <br>
+        <%if(dataN.data[0].address.city=="blank"){%>
+        <div class="row justify-content-center"><div class="h3 text-white text-center bg-dark p-3 col-xs-11 col-sm-6 col-lg-4">Set a Delivery Address</div></div>
+        <%}%>
         <div class="row justify-content-center">
             
-        <%if(data[0].address.city=="blank"){%>
+        <%if(dataN.data[0].address.city=="blank"){%>
 
-            <form class="col-xs-8 col-sm-6 col-lg-4">
+            <form class="col-xs-8 col-sm-6 col-lg-4" method="POST" action="/user/updateDelivery?pId=<%=dataN.pId%>">
                 <div class="form-group">
                   <label for="Hno">House Number</label>
-                  <input type="number" class="form-control" placeholder="Enter Hno">
+                  <input type="number" name="Hno" class="form-control" placeholder="Enter Hno">
                 </div>
                 <div class="form-group">
                   <label for="city">City</label>
-                  <input type="text" class="form-control" placeholder="Enter City">
+                  <input type="text" name="City" class="form-control" placeholder="Enter City">
                 </div>
                 <div class="form-group">
-                    <label for="District">City</label>
-                    <input type="text" class="form-control" placeholder="Enter District">
+                    <label for="District">District</label>
+                    <input type="text" name="District" class="form-control" placeholder="Enter District">
                   </div>
                   <div class="form-group">
                     <label for="state">State</label>
-                    <input type="text" class="form-control" placeholder="Enter State">
+                    <input type="text" name="State" class="form-control" placeholder="Enter State">
                   </div>
                   <div class="form-group">
                     <label for="pincoder">Pincode</label>
-                    <input type="number" class="form-control" placeholder="Enter PinCode">
+                    <input type="number" name="Pincode" class="form-control" placeholder="Enter PinCode">
                   </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
         <%}%></div>
+        <div class="row justify-content-center" id="currentAddress">
+        <%if(dataN.data[0].address.city!="blank"){%>
+          <div class="card bg-warning text-danger" style="width: 30rem;">
+            <div class="card-body">
+              <h5 class="card-title text-primary  h3">Delivery Address</h5>
+              <span class="h4 ">Hno:&nbsp;&nbsp;<%=dataN.data[0].address.hNo%>,<br>City:&nbsp;&nbsp;<%=dataN.data[0].address.city%>,
+              <br>District:&nbsp;&nbsp;<%=dataN.data[0].address.district%>,<br>Pincode:&nbsp;&nbsp;<%=dataN.data[0].address.pincode%><br>State:&nbsp;&nbsp;<%=dataN.data[0].address.state%>
+              </span><br><br>
+              <a href="/buyP?pId=<%=dataN.pId%>" class="card-link btn btn-primary" id="continue">Continue</a>
+              <a href="#" class="card-link btn btn-primary" id="editAddress">Edit Address</a>
+            </div>
+          </div>
+        <%}%></div>
+        <div class="row justify-content-center d-none" id="updateDelivery">
+              <form class="col-xs-8 col-sm-6 col-lg-4" method="POST" action="/user/updateDelivery?pId=<%=dataN.pId%>">
+                  <div class="form-group">
+                    <label for="Hno">House Number</label>
+                    <input type="number" name="Hno" value="<%=dataN.data[0].address.hNo%>" class="form-control" placeholder="Enter Hno">
+                  </div>
+                  <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" value="<%=dataN.data[0].address.city%>" name="City" class="form-control" placeholder="Enter City">
+                  </div>
+                  <div class="form-group">
+                      <label for="District">District</label>
+                      <input type="text" name="District" class="form-control" value="<%=dataN.data[0].address.district%>" placeholder="Enter District">
+                    </div>
+                    <div class="form-group">
+                      <label for="state">State</label>
+                      <input type="text" name="State" value="<%=dataN.data[0].address.state%>" class="form-control" placeholder="Enter State">
+                    </div>
+                    <div class="form-group">
+                      <label for="pincoder">Pincode</label>
+                      <input type="number" name="Pincode" value="<%=dataN.data[0].address.pincode%>" class="form-control" placeholder="Enter PinCode">
+                    </div>
+                  <button type="submit" class="btn btn-primary">Update</button>
+                  <a href="#" class="btn btn-primary ml-3" id='cancelEdit'>Cancel Editing</a>
+                </form>
+              </div>
+              <%if(dataN.data[0].address.city!="blank"){%>
+        <script src='/js/Delivery.js'></script>
+        <%}%>
        </body>
  </html>
