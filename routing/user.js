@@ -10,6 +10,7 @@ const authenticateUser = require('../Authenticate/userAuthenticate');
 const authToken = require('../Authorization/userAuth');
 const cartModel = require('../models/cartSchema');
 const productModel = require('../models/productSchema');
+const orderModel = require('../models/orderSchema');
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
@@ -167,5 +168,43 @@ router.post('/updateDelivery',authToken,(req,res)=>{
         console.log(err);
     })    
 })
-
+router.get('/buyP',authToken,async(req,res)=>{
+    var id = req.user._id;
+    var pId = req.query.pId;
+    var product = await productModel.findById(pId,'price');
+    const newOrder = new orderModel({
+        pId:pId,
+        userId:id,
+        price:product.price
+    })
+    newOrder.save((err,order)=>{
+        if(err){
+            console.log(err);
+        }
+        if(order){
+            console.log(order);
+            res.redirect('/user/myOrders');
+        }
+    })
+})
+router.get('/myOrders',authToken,async(req,res)=>{
+    const id = req.user._id;
+    var ordersP=[];
+    var orders = await orderModel.find({userId:id}).then(data=>{
+        return data;    
+    })
+    for(var i=0;i<orders.length;i++){
+        await productModel.findById(orders[i].pId,'name images').then(data=>{
+           
+        ordersP.push({pId:data._id,name:data.name,price:orders[i].price,quantity:orders[i].quantity,image:data.images[0].filename})
+        }).catch(err=>{console.log(err)})
+    }
+    console.log(ordersP);
+    ejs.renderFile('./views/orders.ejs',{orders},{},function(err,template){
+        if(err){
+            console.log(err);
+        }
+        res.send(template);
+    })
+})
 module.exports = router;
