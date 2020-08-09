@@ -43,7 +43,7 @@
                                     <div class="dropdown-menu bg-info text-center">
                                         <% for(var j=0;j<dataC.categories.data2.length;j++) { %>
                                             <% if(dataC.categories.data1[i]._id==dataC.categories.data2[j].CatId){ %>
-                                                <a class="dropdown-item" href="#"><%= dataC.categories.data2[j].name %></a>
+                                                <a class="dropdown-item" href="#" id="<%= dataC.categories.data2[j]._id %>"><%= dataC.categories.data2[j].name %></a>
                                             <% } %>
                                         <% } %>
                                       </div>    
