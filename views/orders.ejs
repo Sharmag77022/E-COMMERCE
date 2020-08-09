@@ -6,9 +6,6 @@
         <link rel="stylesheet" href="/css/bootstrap.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="/js/bootstrap.js"></script>
-        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-       fkjfdhjkafhsdhfkhfkshf -->
         <script src='/js/loadHeader.js'></script> 
    
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -26,14 +23,28 @@
 
     <body id="mainBody">
         <div id="includedContent" ></div><br>
-        <table class="table table-dark" id="subCatRequests" >
-            <%for(var i=0;i<orders.length;i++){%>
-            <tr><td>Serial Number</td>
-                <td>Product Name</td>
-                <td>Price</td>
-                <td>Quantity</td>
-                </tr>
-            <%}%>
+        <div class="row justify-content-center">
+            <%for(var i=0;i<ordersP.length;i++){%>
+              <a style="text-decoration: none;" href="/product?p=<%=ordersP[i].pId%>">
+                <div class="card p-3 m-1" style="width: 18rem;">
+                    <img class="card-img-top" src="/pImg/<%=ordersP[i].image%>" alt="Card image cap">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                        <span>Quantity:<%=ordersP[i].quantity%></span>
+                        <span><%=ordersP[i].price*ordersP[i].quantity%>&nbsp;&#8377;</span></div>
+                         <br> <div class="d-flex justify-content-between"><span ><%=ordersP[i].date%></span>
+                           <%if(ordersP[i].status==0){%>
+                             <span>inProcessing</span>
+                             <%}%>
+                             <%if(ordersP[i].status==1){%>
+                                <span>Delivery Soon</span>
+                                <%}%>
+                                <%if(ordersP[i].status==2){%>
+                                  <span>Delivered</span>
+                                  <%}%>
+                    </div></div>
+                  </div></a>        
+            <%}%></div>
           </table><br>
     </body>
  </html>

@@ -29,12 +29,12 @@
             <span class="card-text text-muted ">Quantity:&nbsp;<%=data.products[i][0].quantity%></span>
           <span class="card-text text-danger "><%=data.products[i][0].price%>&nbsp;&#8377;</span></div><br>
           <div class="d-flex justify-content-around ">
-          <a href="#"  id="<%= data.products[i][0].pId %>" class="buy btn btn-primary">Buy Now</a>
+          <a href="/user/buy?pId=<%= data.products[i][0].pId %>"  id="<%= data.products[i][0].pId %>" class="buy btn btn-primary">Buy Now</a>
           <a href="#" id="<%= data.products[i][0].pId %>" class="remove btn btn-primary">Remove</a></div>
         </div>
       </div>
       <%}%></div><br><div class="row justify-content-center">
-      <a href="#" class="btn btn-success">Buy Items</a></div><br><br><br><br><br><br><br><br>
+      <a href="/user/buyCart?pId=all" class="btn btn-success">Buy Items</a></div><br><br><br><br><br><br><br><br>
       <script src='/js/removeCart.js'></script>
     </body>
  </html>

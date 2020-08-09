@@ -171,6 +171,32 @@ router.post('/updateDelivery',authToken,(req,res)=>{
 router.get('/buyP',authToken,async(req,res)=>{
     var id = req.user._id;
     var pId = req.query.pId;
+    //Buy all products in Cart
+    if(pId=='all'){
+       const cart = await cartModel.find().then(data=>{
+           return data;
+       }) 
+    for(var i=0;i<cart.length;i++){
+        var product = await productModel.findById(cart[i].pId,'price');
+        var newOrder =await new orderModel({
+        pId:cart[i].pId,
+        userId:id,
+        price:product.price,
+        quantity:cart[i].quantity
+    })
+    await newOrder.save((err,order)=>{
+        if(err){
+            console.log(err);
+        }
+    })
+    }
+    cartModel.deleteMany({}).then(data=>{
+        res.redirect('/user/myOrders');
+    })
+    
+    }
+    //Buy Single Products
+    else{
     var product = await productModel.findById(pId,'price');
     const newOrder = new orderModel({
         pId:pId,
@@ -186,6 +212,7 @@ router.get('/buyP',authToken,async(req,res)=>{
             res.redirect('/user/myOrders');
         }
     })
+  }
 })
 router.get('/myOrders',authToken,async(req,res)=>{
     const id = req.user._id;
@@ -193,18 +220,38 @@ router.get('/myOrders',authToken,async(req,res)=>{
     var orders = await orderModel.find({userId:id}).then(data=>{
         return data;    
     })
+    //console.log(orders);
     for(var i=0;i<orders.length;i++){
+        
         await productModel.findById(orders[i].pId,'name images').then(data=>{
-           
-        ordersP.push({pId:data._id,name:data.name,price:orders[i].price,quantity:orders[i].quantity,image:data.images[0].filename})
+        var date = new Date(orders[i].createdAt);
+        var day = date.getDate();
+        var month = date.getMonth();
+        var year = date.getFullYear();
+        var d =day+"/"+month+"/"+year   
+        ordersP.push({pId:data._id,name:data.name,price:orders[i].price,quantity:orders[i].quantity,image:data.images[0].filename,date:d,status:orders[i].status})
         }).catch(err=>{console.log(err)})
     }
-    console.log(ordersP);
-    ejs.renderFile('./views/orders.ejs',{orders},{},function(err,template){
+  //console.log(ordersP);
+    ejs.renderFile('./views/orders.ejs',{ordersP},{},function(err,template){
         if(err){
             console.log(err);
         }
         res.send(template);
     })
+})
+
+router.get('/buyCart',authToken,(req,res)=>{
+    var id=req.user._id;
+    var pId = req.query.pId;
+    userModel.find({_id:id},'name email address').then(data=>{
+        dataN={data:data,pId:pId};
+        ejs.renderFile('./views/delivery.ejs',{dataN},{},function(err,template){
+            if(err){
+                console.log(err);
+            }
+            res.send(template);
+        })
+    }) 
 })
 module.exports = router;
