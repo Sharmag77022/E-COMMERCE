@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded',()=>{
              }, 2000);
         }).catch(err=>{
             const div=document.createElement('div');
-            div.classList.add('alert','alert-info',"bg-warning",'lead');
-            div.innerHTML="There is some problem in adding Product in cart";
+            div.classList.add('alert','alert-info',"bg-warning",'lead','text-danger');
+            div.innerHTML="! Please Login for cart services";
             msg.appendChild(div);
             setTimeout(function()
             {

@@ -4,7 +4,8 @@ const orderSchema = new mongoose.Schema({
     userId:{type:String,required:true},
     status:{type:Number,default:0},
     quantity:{type:Number,default:1},
-    price:{type:Number}
+    price:{type:Number},
+    sellerId:{type:String}
 },{
     timestamps: true
 });

@@ -177,12 +177,13 @@ router.get('/buyP',authToken,async(req,res)=>{
            return data;
        }) 
     for(var i=0;i<cart.length;i++){
-        var product = await productModel.findById(cart[i].pId,'price');
+        var product = await productModel.findById(cart[i].pId,'price sellerId');
         var newOrder =await new orderModel({
         pId:cart[i].pId,
         userId:id,
         price:product.price,
-        quantity:cart[i].quantity
+        quantity:cart[i].quantity,
+        sellerId:product.sellerId
     })
     await newOrder.save((err,order)=>{
         if(err){
@@ -199,11 +200,12 @@ router.get('/buyP',authToken,async(req,res)=>{
     }
     //Buy Single Products
     else{
-    var product = await productModel.findById(pId,'price');
+    var product = await productModel.findById(pId,'price sellerId');
     const newOrder = new orderModel({
         pId:pId,
         userId:id,
-        price:product.price
+        price:product.price,
+        sellerId:product.sellerId
     })
     newOrder.save((err,order)=>{
         if(err){

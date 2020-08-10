@@ -15,6 +15,7 @@ const category = require('../models/categorySchema');
 const subCategoryR= require('../models/subCatReq');
 const subCategory =require('../models/subCatSchema');
 const randomstring = require("randomstring");
+const orderModel = require('../models/orderSchema');
 //image uploading
 const fs = require('fs'); 
 const path = require('path'); 
@@ -222,5 +223,12 @@ router.get('/products',authTokenM,(req,res)=>{
          });
        // console.log(skip);
     }) 
-
+router.get('/orders',authTokenM,async(req,res)=>{
+    const id = req.merchant._id;
+    console.log(id);
+    const orders = await orderModel.find({sellerId:id}).then(data=>{
+        return data;
+    })
+    console.log(orders);
+})
 module.exports = router;

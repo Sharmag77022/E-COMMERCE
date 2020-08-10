@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 let ejs = require('ejs');
 const cartModel = require('./models/cartSchema');
 const authToken = require('./Authorization/userAuth');
+const checkUser = require('./Authorization/userTest');
 const cookieAuth = require('./Authorization/cookieAuth');
 const authTokenM = require('./Authorization/merchantAuth');
 const authTokenA = require('./Authorization/adminAuth');
@@ -34,7 +35,7 @@ app.use('/user',user);
 app.use('/merchant',merchant);
 app.use('/admin',admin);
 
-app.get('/', authToken,async (req,res)=>
+app.get('/',async (req,res)=>
 {
    
     const products = await productModel.find({},null,{limit:12}).then(data=>{
@@ -144,4 +145,7 @@ app.get('/mProducts',async(req,res)=>{
           res.json(data);
        });
   }) 
+  app.get('/checkUser',checkUser,(req,res)=>{
+      res.json({"msg":"1"});
+  })
 app.listen(3000,()=>console.log('server is running at 3000'));
