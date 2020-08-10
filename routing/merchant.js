@@ -225,7 +225,7 @@ router.get('/products',authTokenM,(req,res)=>{
     }) 
 router.get('/orders',authTokenM,async(req,res)=>{
     const id = req.merchant._id;
-    console.log(id);
+   // console.log(id);
     const orders = await orderModel.find({sellerId:id,status:0}).then(data=>{
         return data;
     })
@@ -251,5 +251,25 @@ router.post('/orderD',authTokenM,(req,res)=>{
             res.status(500).send();
         })
     }
+    if(req.body.flag==3){
+        orderModel.findByIdAndUpdate(req.body.oId,{status:2},{new:true}).then(data=>{
+            console.log(data);
+            res.status(200).send();
+        }).catch(err=>{
+            res.status(500).send();
+        })
+    }
+    
+})
+
+router.get('/ordersC',authTokenM,async(req,res)=>{
+    const id = req.merchant._id;
+    const orders = await orderModel.find({sellerId:id,status:1}).then(data=>{
+        return data;
+    })
+    console.log(orders[0]._id);
+    ejs.renderFile('./views/merchant/ordersC.ejs',{orders},{},(err,template)=>{
+        res.send(template);
+    })
 })
 module.exports = router;
