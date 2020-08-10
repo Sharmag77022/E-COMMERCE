@@ -56,11 +56,12 @@ router.post('/addProduct',authTokenM,(req,res)=>{
     }
         else{
             var id=req.merchant._id;
+            console.log(req.body);
             const newProduct= new productModel({name: req.body.productName, 
                 desc: req.body.discription, 
                 sellerId:id,
                 price:req.body.price,
-                cat: req.body.scat,
+                cat: req.body.sCat,
                 images: req.files});
                 newProduct.save((err,data)=>{
                     if(err){
@@ -68,7 +69,6 @@ router.post('/addProduct',authTokenM,(req,res)=>{
                         res.redirect('/merchant/addProduct?NotAdded');
                     }
                     else{
-                        console.log('New Product Added');
                         res.redirect('/merchant/addProduct?AddedSuccessfully');
                     }
                 })

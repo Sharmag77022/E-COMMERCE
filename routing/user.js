@@ -188,11 +188,13 @@ router.get('/buyP',authToken,async(req,res)=>{
         if(err){
             console.log(err);
         }
+           
+        
     })
     }
-    cartModel.deleteMany({}).then(data=>{
+     cartModel.deleteMany({}).then(data=>{
         res.redirect('/user/myOrders');
-    })
+             })
     
     }
     //Buy Single Products

@@ -108,4 +108,40 @@ app.get('/cartQuantity',authToken,async(req,res)=>{
    })
    res.json(cartQ);
 })
+app.get('/products',async(req,res)=>{
+    cId = req.query.cId;
+    const products = await productModel.find({cat:cId},null,{limit:12}).then(data=>{
+        return data;
+    })
+    //console.log(products);
+    category.find().then(data=>{
+        subCategory.find().then((sdata)=>{
+            var dataC= {categories:{data1:data,data2:sdata},products:products};
+            ejs.renderFile('./views/pByCat.ejs', {dataC}, {}, function(err, template){
+                if(err){
+                    console.log(err);
+                }
+                return res.status(301).send(template);
+        })
+     });  
+    })
+})
+app.get('/mProducts',async(req,res)=>{
+    var skip= parseInt(req.query.skip); 
+    var cId = req.query.cId;
+  const count = await productModel.countDocuments({cat:cId}).then(count=>{
+          
+          return count;
+       })
+      if(skip>=count){
+          skip= skip%count;
+          if(skip<12){
+                  skip=0;
+          }
+      }
+      productModel.find({cat:cId}, null, { limit: 12,skip:skip}).then(data=>{
+          //console.log(data);
+          res.json(data);
+       });
+  }) 
 app.listen(3000,()=>console.log('server is running at 3000'));
