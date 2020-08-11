@@ -28,11 +28,19 @@ document.addEventListener('DOMContentLoaded',()=>{
               const p1= document.createElement('p') ;
               p1.classList.add('card-text', 'text-success' ,'text-center', 'h3');
               p1.innerHTML=data[i].name;
-              const p2= document.createElement('p') ;
-              p2.classList.add('card-text','text-right', 'text-danger');
-              p2.innerHTML=data[i].price+"&nbsp;&#8377;";
+              const btn = document.createElement('button');
+              btn.classList.add('btn','btn-primary' ,'ml-1','remove');
+              btn.innerHTML='Remove';
+              btn.setAttribute('id',data[i]._id);
+              const div4 = document.createElement('div');
+              div4.classList.add('row' ,'justify-content-between')
+              const spn= document.createElement('span') ;
+              spn.classList.add('card-text','text-right', 'text-danger');
+              spn.innerHTML=data[i].price+"&nbsp;&#8377;";
+              div4.appendChild(btn);
+              div4.appendChild(spn);
               div3.appendChild(p1);
-              div3.appendChild(p2);
+              div3.appendChild(div4);
               div2.appendChild(img);
               div2.appendChild(div3);
               div1.appendChild(div2);

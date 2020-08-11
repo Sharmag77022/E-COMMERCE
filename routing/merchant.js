@@ -197,7 +197,7 @@ router.post('/categoryR',authTokenM,(req,res)=>{
 router.get('/products',authTokenM,(req,res)=>{
     var id=req.merchant._id;
     productModel.find({sellerId:id}).then(data=>{
-          // console.log(data);
+          //console.log(data);
             ejs.renderFile('./views/merchant/products.ejs', {data}, {}, function(err, template){
             res.send(template);
         })
@@ -211,7 +211,7 @@ router.get('/products',authTokenM,(req,res)=>{
             
             return count;
          })
-         console.log(count);
+         //console.log(count);
         if(skip>=count){
             skip= skip%count;
             if(skip<5){
@@ -263,13 +263,25 @@ router.post('/orderD',authTokenM,(req,res)=>{
 })
 
 router.get('/ordersC',authTokenM,async(req,res)=>{
+    //console.log(req.merchant);
     const id = req.merchant._id;
     const orders = await orderModel.find({sellerId:id,status:1}).then(data=>{
         return data;
     })
-    console.log(orders[0]._id);
+    //console.log(orders[0]._id);
     ejs.renderFile('./views/merchant/ordersC.ejs',{orders},{},(err,template)=>{
         res.send(template);
+    })
+})
+router.get('/pRemove',authTokenM,async(req,res)=>{
+    var id = req.merchant._id;
+    var pId = req.query.pId;
+        productModel.findOneAndRemove({_id:pId,sellerId:id},{useFindAndModify:false}).then(data=>{
+        console.log(data);
+        res.status(200).send();
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send();
     })
 })
 module.exports = router;

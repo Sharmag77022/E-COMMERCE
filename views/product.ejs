@@ -78,7 +78,7 @@
             <br>
           <!-- Product Description -->
           <div class="row">
-          <div class="card text-center col-sm-6 mx-auto" style="background-color: powderblue;">
+          <div class="card text-center col-sm-10 col-lg-8 mx-auto" style="background-color: powderblue;">
             <div class="card-header ">
              <p class="h3"> Description</p>
             </div>
@@ -86,7 +86,7 @@
               <%var desc=data[0].desc.split("\r")%>
               <ul class="card-text" style="list-style-type:none;">
                 <%for(let i=0;i<desc.length;i++){%>
-                  <li><%=desc[i]%></li>
+                  <li class="h4"><%=desc[i]%></li>
                   <%}%>
               </ul>
               </div> 

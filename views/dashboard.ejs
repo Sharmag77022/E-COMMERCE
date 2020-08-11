@@ -19,12 +19,11 @@
     </head>
 
     <body id="mainBody">
-        <div>
+        <div class="">
         <div id="includedContent" ></div>
         </div>
-        <div w3-include-html="/mainHeader.html"></div>
         <!-- Categories Section -->
-        <div class="wrapper  ">
+        <div class="wrapper">
             <nav class="navbar navbar-expand-sm navbar-dark bg-dark ">
                 <div class="container-fluid ">
                     <button class="navbar-toggler" data-toggle="collapse" data-target="#navbaraid">
@@ -61,11 +60,11 @@
             </nav>
         </div>
         <!-- end of categories section -->
-        <div class="row" id="pContainer">
+        <div class="row justify-content-center" id="pContainer">
             <%for(let i=0;i<dataC.products.length;i++){%>
-             <a style="text-decoration: none;" href="/product?p=<%= dataC.products[i]._id %>" class="d-flex justify-content-center ">   <div class="col-sm-6 col-xs-12 col-lg-4 col-xl-3 mb-2">
-          <div class="card" style="width: 20rem; ">      
-        <img class="card-img-top" src="/pImg/<%= dataC.products[i].images[0].filename %>" alt="Product Image">
+             <a style="text-decoration: none;" class="m-1" href="/product?p=<%= dataC.products[i]._id %>">
+          <div class="card" style="width: 20rem;">      
+        <img class="card-img-top" src="/pImg/<%= dataC.products[i].images[0].filename%>" alt="Product Image">
         
             
             <div class="card-body">
@@ -73,7 +72,7 @@
               <p class=" card-text text-right text-danger"><%=dataC.products[i].price%>&nbsp;&#8377;</p>
     
             </div>
-          </div></a></div>
+          </div></a>
             <%}%></div>
         <script  src="/js/dProductList.js"></script>                              
     </body>
