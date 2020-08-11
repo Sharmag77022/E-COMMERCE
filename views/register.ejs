@@ -16,10 +16,12 @@
          <link href="https://fonts.googleapis.com/css?family=Oswald" rel=“stylesheet”>
     </head>
 
-    <body >
-        <div class='container-fluid'>
-            <h1 class='jumbotron'>Register Here</h1><br>
-            <form action="/user/register" method="post">
+    <body class="bg-info" >
+        <div class='container-fluid'><br><br>
+          <div class="row justify-content-center">
+            <span class='h1 col-sm-6 col-lg-5 bg-warning text-center p-3'>Register Here</h1></div><br>
+            <div class="row justify-content-center">
+            <form class="col-sm-6 bg-success  text-white p-4" action="/user/register" method="post">
                 <div class="form-group">
                     <label for="Name">Name:</label>
                     <input type="text" class="form-control" placeholder="Enter Your Name" id="neme" name="name">
@@ -34,11 +36,12 @@
                 </div>
                 <br>
                 <button type="submit" class="btn btn-primary">Register</button>
-              </form><br>
-              <div class='text-success'>
-              already have an account<br>
+              </form></div><br>
               
-              <a class="btn btn-primary" href="/user/login" role="button">Login Here</a></div>
+              <div class='text-danger text-center '>
+              already have an account &nbsp;&nbsp;
+              
+              <a class="btn btn-success" href="/user/login" role="button">Login Here</a></div>
         </div>
     </body>
  </html>
