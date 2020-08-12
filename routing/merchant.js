@@ -229,7 +229,7 @@ router.get('/orders',authTokenM,async(req,res)=>{
     const orders = await orderModel.find({sellerId:id,status:0}).then(data=>{
         return data;
     })
-    console.log(orders);
+    //console.log(orders);
     ejs.renderFile('./views/merchant/ordersM.ejs',{orders},{},(err,template)=>{
         res.send(template);
     })
@@ -237,7 +237,7 @@ router.get('/orders',authTokenM,async(req,res)=>{
 router.post('/orderD',authTokenM,(req,res)=>{
     if(req.body.flag==1){
         orderModel.findByIdAndUpdate(req.body.oId,{status:1},{new:true}).then(data=>{
-            console.log(data);
+            //console.log(data);
             res.status(200).send();
         }).catch(err=>{
             res.status(500).send();
@@ -253,7 +253,7 @@ router.post('/orderD',authTokenM,(req,res)=>{
     }
     if(req.body.flag==3){
         orderModel.findByIdAndUpdate(req.body.oId,{status:2},{new:true}).then(data=>{
-            console.log(data);
+            //console.log(data);
             res.status(200).send();
         }).catch(err=>{
             res.status(500).send();

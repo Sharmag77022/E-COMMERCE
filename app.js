@@ -1,3 +1,5 @@
+require('dotenv').config();
+var port = process.env.PORT || 3000;
 const express = require('express');
 const app = express();
 const connection = require('./models/connection');
@@ -148,19 +150,4 @@ app.get('/mProducts',async(req,res)=>{
   app.get('/checkUser',checkUser,(req,res)=>{
       res.json({"msg":"1"});
   })
-app.listen(3000,()=>console.log('server is running at 3000'));
-
-//  <div class="row" id="pContainer">
-// <%for(let i=0;i<dataC.products.length;i++){%>
-//  <a style="text-decoration: none;" href="/product?p=<%= dataC.products[i]._id %>" class="d-flex justify-content-center ">   <div class="col-sm-6 col-xs-12 col-lg-4 col-xl-3 mb-2">
-// <div class="card" style="width: 20rem; ">      
-// <img class="card-img-top" src="/pImg/<%= dataC.products[i].images[0].filename %>" alt="Product Image">
-
-
-// <div class="card-body">
-//   <p class="card-text text-success text-center h3"><%=dataC.products[i].name%></p>
-//   <p class=" card-text text-right text-danger"><%=dataC.products[i].price%>&nbsp;&#8377;</p>
-
-// </div>
-// </div></a></div>
-// <%}%></div> 
+app.listen(port,()=>console.log('server is running at 3000'));
