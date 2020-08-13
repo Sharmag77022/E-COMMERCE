@@ -57,3 +57,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     })
    
 })
+/* <ul class="carousel-indicators">
+<%for(let i=0;i<data[0].images.length;i++){%>
+<li data-target="#pImages" data-slide-to="<%i%>" <%if(i==0){%>class= " active"<%}%>  ></li>
+<%}%>
+</ul> */
