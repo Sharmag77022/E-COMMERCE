@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded',()=>{
               div22.classList.add('row','p-1','justify-content-center');
               div2.classList.add("card"); 
               div2.style.width = '18rem';
-              div2.style.height = '25rem';
+              div2.style.height = '26rem';
               const img= document.createElement('img') ;
               img.setAttribute('src',"/pImg/"+data[i].images[0].filename);
               img.setAttribute('alt',"productImage");
