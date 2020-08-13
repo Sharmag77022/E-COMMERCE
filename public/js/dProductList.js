@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded',()=>{
               const div3= document.createElement('div') ;
               div3.classList.add("card-body");
               const p1= document.createElement('p') ;
-              p1.classList.add('card-text', 'text-success' ,'text-center', 'h3');
+              p1.classList.add('card-text', 'text-success' ,'text-center', 'h5');
               p1.innerHTML=data[i].name;
               const p2= document.createElement('p') ;
               p2.classList.add('card-text','text-right', 'text-danger');
