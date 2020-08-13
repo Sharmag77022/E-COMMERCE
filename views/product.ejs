@@ -7,9 +7,6 @@
         <link rel="stylesheet" href="/css/bootstrap.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="/js/bootstrap.js"></script>
-        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-       fkjfdhjkafhsdhfkhfkshf -->
         <script src='/js/loadHeader.js'></script> 
    
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -33,9 +30,9 @@
         <div id="includedContent" ></div><br>
         <!-- Name OF Product -->
         <div class="row" >
-        <div class="card col-sm-6 col-lg-4 mx-auto " style="background-color: powderblue;">
+        <div class="card col-sm-6 col-lg-4 mx-auto " >
             <div class="card-body">
-                <h1 class="text-center text-success"><%=data[0].name%></h1>
+                <h4 class="text-center text-success"><%=data[0].name%></h4>
             </div>
         </div></div><br>
         <!-- image Slider -->
@@ -83,15 +80,15 @@
             <br>
           <!-- Product Description -->
           <div class="row">
-          <div class="card text-center col-sm-10 col-lg-8 mx-auto" style="background-color: powderblue;">
+          <div class="card  text-center col-sm-10 col-lg-8 mx-auto" >
             <div class="card-header ">
-             <p class="h3"> Description</p>
+             <p class="h3 "> Description</p>
             </div>
             <div class="card-body ">
               <%var desc=data[0].desc.split("\r")%>
-              <ul class="card-text" style="list-style-type:none;">
+              <ul class="card-text text-left " style="list-style-type:none;">
                 <%for(let i=0;i<desc.length;i++){%>
-                  <li class="h4"><%=desc[i]%></li>
+                  <li class="h5" style="opacity: 0.8;"><%=i+1%>:&nbsp;&nbsp;<%=desc[i]%></li>
                   <%}%>
               </ul>
               </div> 
