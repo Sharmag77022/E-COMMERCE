@@ -13,12 +13,12 @@
     <div class="row" id="pContainer">
         <%for(let i=0;i<data.length;i++){%>
             <div class="col-sm-6 col-lg-3 mb-2 mx-auto">
-      <div class="card" style="width: 20rem; ">      
-    <img class="card-img-top" src="/pImg/<%= data[i].images[0].filename %>" alt="Card image cap">
+      <div class="card" style="width: 18rem; height: auto; ">      
+    <img class="card-img-top p-2" style="max-width:90%;height:auto;" src="/pImg/<%= data[i].images[0].filename %>" alt="Card image cap">
     
         
         <div class="card-body">
-          <p class="card-text text-success text-center h3"><%=data[i].name%></p>
+          <p class="card-text text-success text-center h5"><%=data[i].name%></p>
           <div class="row justify-content-between">
           <button class='btn btn-primary ml-1 remove' id="<%=data[i]._id%>">Remove</button>
           <span class=" mr-1 card-text text-right text-danger"><%=data[i].price%>&nbsp;&#8377;</span>
