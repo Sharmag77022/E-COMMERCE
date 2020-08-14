@@ -17,33 +17,39 @@ document.addEventListener('DOMContentLoaded',()=>{
             }
         }).then(data=>{
            // console.log(data[11].desc.replace(/\n/g,"<br/>"));
-            for(let i=0;i<data.length;i++){ 
-              const plink = document.createElement('a');
-              plink.setAttribute('href','/product?p='+data[i]._id);
-              plink.style.textDecoration ='none';
-              plink.classList.add("m-1")
-              const div2= document.createElement('div') ;
-              div2.classList.add("card"); 
-              div2.style.width = '20rem';
-              const img= document.createElement('img') ;
-              img.setAttribute('src',"/pImg/"+data[i].images[0].filename);
-              img.setAttribute('alt',"productImage");
-              img.classList.add('card-img-top');
-              const div3= document.createElement('div') ;
-              div3.classList.add("card-body");
-              const p1= document.createElement('p') ;
-              p1.classList.add('card-text', 'text-success' ,'text-center', 'h3');
-              p1.innerHTML=data[i].name;
-              const p2= document.createElement('p') ;
-              p2.classList.add('card-text','text-right', 'text-danger');
-              p2.innerHTML=data[i].price+"&nbsp;&#8377;";
-              div3.appendChild(p1);
-              div3.appendChild(p2);
-              div2.appendChild(img);
-              div2.appendChild(div3);
-              plink.appendChild(div2);
-              container.appendChild(plink);
-            }
+           for(let i=0;i<data.length;i++){ 
+            const plink = document.createElement('a');
+            plink.classList.add('m-1');
+            plink.setAttribute('href','/product?p='+data[i]._id);
+            plink.style.textDecoration ='none';
+            const div2= document.createElement('div') ;
+            const div22= document.createElement('div') ;
+            div22.classList.add('row','p-1','justify-content-center');
+            div2.classList.add("card"); 
+            div2.style.width = '18rem';
+            div2.style.height = '26rem';
+            const img= document.createElement('img') ;
+            img.setAttribute('src',"/pImg/"+data[i].images[0].filename);
+            img.setAttribute('alt',"productImage");
+            img.classList.add('card-img-top','img-fluid','img-thumbnail','p-3');
+            img.style.maxWidth = '90%';
+            img.style.height ='auto';
+            div22.appendChild(img);
+            const div3= document.createElement('div') ;
+            div3.classList.add("card-body");
+            const p1= document.createElement('p') ;
+            p1.classList.add('card-text', 'text-success' ,'text-center', 'h5');
+            p1.innerHTML=data[i].name;
+            const p2= document.createElement('p') ;
+            p2.classList.add('card-text','text-right', 'text-danger');
+            p2.innerHTML=data[i].price+"&nbsp;&#8377;";
+            div3.appendChild(p1);
+            div3.appendChild(p2);
+            div2.appendChild(div22);
+            div2.appendChild(div3);
+            plink.appendChild(div2);
+            container.appendChild(plink);
+          }
               }).catch(err=>{
                   console.log(err);
               });
